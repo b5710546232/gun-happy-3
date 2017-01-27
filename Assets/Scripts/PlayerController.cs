@@ -13,22 +13,33 @@ public class PlayerController : MonoBehaviour
 
     public bool grounded = false;
 
-	public float weaponPositionZ = -5;
+    public float weaponPositionZ = -5;
+
+    public KeyCode upButton;
+
+    public KeyCode leftButton;
+
+    public KeyCode rightButton;
+
+    public KeyCode downButton;
+
+    public KeyCode fireButton;
 
     // Use this for initialization
     void Start()
     {
-		// weapon = Instantiate(weapon,transform.position,Quaternion.identity);
+        // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
 
-		weapon.transform.parent = this.transform;
-    	weapon.transform.localPosition = new Vector3(padding,0,weaponPositionZ);
+        weapon.transform.parent = this.transform;
+        weapon.transform.localPosition = new Vector3(padding, 0, weaponPositionZ);
     }
 
-	public void ChangeWeapon(GameObject newWeapon){
-		weapon.transform.parent = null;
-		newWeapon.transform.parent = this.transform;
+    public void ChangeWeapon(GameObject newWeapon)
+    {
+        weapon.transform.parent = null;
+        newWeapon.transform.parent = this.transform;
 
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -38,11 +49,11 @@ public class PlayerController : MonoBehaviour
 
     void Shoot(float direction)
     {
-		weapon.GetComponent<GunController>().fire(direction);
+        weapon.GetComponent<GunController>().fire(direction);
 
-		
+
         // use gun to fire
-		// gun.fire(direction);
+        // gun.fire(direction);
 
     }
 
@@ -61,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
     void Control()
     {
-        if (Input.GetAxis("Vertical") != 0)
+        if (Input.GetKey(upButton))
         {
             if (grounded)
             {
@@ -69,20 +80,19 @@ public class PlayerController : MonoBehaviour
                 grounded = false;
             }
         }
-        if (Input.GetAxis("Horizontal") != 0)
+        if (Input.GetKey(leftButton))
         {
-                if (Input.GetAxis("Horizontal") < -0.1f)
-                {
-                    transform.localScale = new Vector3(-1, 1, 1);
-                }
-                if (Input.GetAxis("Horizontal") > 0.1f)
-                {
-                    transform.localScale = new Vector3(1, 1, 1);
-                }
-            Move();
+            transform.localScale = new Vector3(-1, 1, 1);
+			Move();
         }
+        if (Input.GetKey(rightButton))
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+			Move();
+        }
+        
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(fireButton))
         {
             Shoot(transform.localScale.x);
         }

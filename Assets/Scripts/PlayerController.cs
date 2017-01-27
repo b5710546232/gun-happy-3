@@ -2,81 +2,113 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-	public float speed = 3f;
-	public GameObject projectile;
-	public float padding = 1f;
-	public float projecttileSpeed = 10f;
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 3f;
+    public GameObject weapon;
 
-	public float health = 100f;
+    public float padding = 0.2f;
 
-	public bool grounded = false;
+    public float health = 100f;
 
-	// Use this for initialization
-	void Start () {
+    public bool grounded = false;
+
+	public float weaponPositionZ = -5;
+
+    // Use this for initialization
+    void Start()
+    {
+		// weapon = Instantiate(weapon,transform.position,Quaternion.identity);
+
+		weapon.transform.parent = this.transform;
+    	weapon.transform.localPosition = new Vector3(padding,0,weaponPositionZ);
+    }
+
+	public void ChangeWeapon(GameObject newWeapon){
+		weapon.transform.parent = null;
+		newWeapon.transform.parent = this.transform;
+
+	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void Shoot(float direction)
+    {
+		weapon.GetComponent<GunController>().fire(direction);
+
 		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        // use gun to fire
+		// gun.fire(direction);
 
-	void Shoot(){
-		GameObject bullet = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D> ();
-		float bulletSpeed = 10f;
-		rbBullet.velocity = new Vector2(bulletSpeed, rbBullet.velocity.y);
-		// rbBullet.velocity = new Vector2(rbBullet.velocity.x, 5f);
-		// use gun to fire
-	}
+    }
 
-	
 
-	void Jump(){
-		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
-		rb.velocity = new Vector2 (rb.velocity.x, 5f);
-		
-	}
-	void Move(){
-		gameObject.transform.Translate(Input.GetAxis("Horizontal")*Vector3.right*speed* Time.deltaTime);
-	}
 
-	void Control(){
-		if( Input.GetAxis("Vertical")!=0  ){
-			if(grounded){
-				 Jump();
-				 grounded = false;
-			}
-		}
-		if( Input.GetAxis("Horizontal")!=0  ){
-			Move();
-		}
+    void Jump()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(rb.velocity.x, 5f);
 
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Shoot();
-		}
-	}
+    }
+    void Move()
+    {
+        gameObject.transform.Translate(Input.GetAxis("Horizontal") * Vector3.right * speed * Time.deltaTime);
+    }
 
-	/// <summary>
-	/// Sent when an incoming collider makes contact with this object's
-	/// collider (2D physics only).
-	/// </summary>
-	/// <param name="other">The Collision2D data associated with this collision.</param>
-	void OnCollisionEnter2D(Collision2D col)
-	{
-		if (col.gameObject.tag == "Ground"){
-			grounded = true;
-			print("hi");
-		}
-		else{
-			grounded = false;
-			print("false");
-		}
-	}
+    void Control()
+    {
+        if (Input.GetAxis("Vertical") != 0)
+        {
+            if (grounded)
+            {
+                Jump();
+                grounded = false;
+            }
+        }
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+                if (Input.GetAxis("Horizontal") < -0.1f)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                if (Input.GetAxis("Horizontal") > 0.1f)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+            Move();
+        }
 
-	void FixedUpdate()
-	{
-		Control();
-	}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot(transform.localScale.x);
+        }
+    }
+
+    /// <summary>
+    /// Sent when an incoming collider makes contact with this object's
+    /// collider (2D physics only).
+    /// </summary>
+    /// <param name="other">The Collision2D data associated with this collision.</param>
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            grounded = true;
+            print("hi");
+        }
+        else
+        {
+            grounded = false;
+            print("false");
+        }
+    }
+
+    void FixedUpdate()
+    {
+        Control();
+    }
 }

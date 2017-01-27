@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour {
 
-	
+	public GameObject pool;
 
 	// Use this for initialization
 	void Start () {
-		
 	}
 
-	void fire(){
+	public void fire(float direction){
 		// shoot fire the bullet
+		// GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
+		GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);
+        Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
+        float bulletSpeed = 10f;
+        rbBullet.velocity = new Vector2(bulletSpeed*direction, rbBullet.velocity.y);
+		gameobj.transform.localScale.Set(direction, 1, 1);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletScripts : MonoBehaviour {
+public class BulletScript : MonoBehaviour {
 
 	public float damage = 100f;
 	// Use this for initialization
@@ -16,4 +16,7 @@ public class BulletScripts : MonoBehaviour {
 	public void Hit(){
 		// method of Hit
 	}
+	void OnBecameInvisible() {
+         Destroy(gameObject);
+     }
 }

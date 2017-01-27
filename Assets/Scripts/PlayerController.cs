@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public float speed = 3f;
-	public GameObject gun;
+	public GameObject projectile;
 	public float padding = 1f;
 	public float projecttileSpeed = 10f;
-	public float fireingRate = 0.2f;
+
 	public float health = 100f;
 
 	public bool grounded = false;
@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Shoot(){
+		GameObject bullet = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D> ();
+		float bulletSpeed = 10f;
+		rbBullet.velocity = new Vector2(bulletSpeed, rbBullet.velocity.y);
+		// rbBullet.velocity = new Vector2(rbBullet.velocity.x, 5f);
 		// use gun to fire
 	}
 
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour {
 	void Jump(){
 		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
 		rb.velocity = new Vector2 (rb.velocity.x, 5f);
+		
 	}
 	void Move(){
 		gameObject.transform.Translate(Input.GetAxis("Horizontal")*Vector3.right*speed* Time.deltaTime);
@@ -45,6 +51,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		if( Input.GetAxis("Horizontal")!=0  ){
 			Move();
+		}
+
+		if(Input.GetKeyDown(KeyCode.Space)){
+			Shoot();
 		}
 	}
 

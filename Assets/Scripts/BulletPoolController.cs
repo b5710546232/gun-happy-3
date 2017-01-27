@@ -14,7 +14,7 @@ public class BulletPoolController : MonoBehaviour {
 		print("hello");
 		pools.Clear();
 		GameObject _bullet = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
-		// _bullet.SetActive(false);
+		_bullet.SetActive(false);
 		pools.Add(_bullet);
 		for(int i = 0 ; i<SIZE; i++){
 			// GameObject _bullet = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;

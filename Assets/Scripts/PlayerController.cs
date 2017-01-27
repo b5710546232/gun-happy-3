@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public float speed = 3f;
+	public GameObject gun;
+	public float padding = 1f;
+	public float projecttileSpeed = 10f;
+	public float fireingRate = 0.2f;
+	public float health = 100f;
+
 	public bool grounded = false;
 
 	// Use this for initialization
@@ -13,8 +19,14 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Control();
+		
 	}
+
+	void Shoot(){
+		// use gun to fire
+	}
+
+	
 
 	void Jump(){
 		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
@@ -51,5 +63,10 @@ public class PlayerController : MonoBehaviour {
 			grounded = false;
 			print("false");
 		}
+	}
+
+	void FixedUpdate()
+	{
+		Control();
 	}
 }

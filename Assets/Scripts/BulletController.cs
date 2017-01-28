@@ -16,9 +16,13 @@ public class BulletController : MonoBehaviour {
 	public void Hit(){
 		// method of Hit
 		gameObject.SetActive(false);
+		Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+		rb.velocity = Vector2.zero;
 	}
 	void OnBecameInvisible() {
 		gameObject.SetActive(false);
         //  Destroy(gameObject);
      }
+
+
 }

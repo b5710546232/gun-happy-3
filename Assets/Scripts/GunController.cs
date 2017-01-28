@@ -5,6 +5,7 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
 	public GameObject pool;
+	public float projectileForce;
 
 	// Use this for initialization
 	void Start () {
@@ -15,9 +16,14 @@ public class GunController : MonoBehaviour {
 		// GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);
         Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
-		float bulletSpeed = 3f;
-        rbBullet.velocity = new Vector2(bulletSpeed*direction, rbBullet.velocity.y);
+		float shootForce =100f;
+		// rbBullet.AddForce(gameobj.transform.forward * shootForce);
+		rbBullet.AddForce(Vector2.right *direction* shootForce);
+		
+        // rbBullet.velocity = new Vector2(projectileForce*direction, rbBullet.velocity.y);
 		gameobj.transform.localScale = new Vector3(direction, 1, 1);
+		
+
 
 	}
 	

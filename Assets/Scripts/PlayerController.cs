@@ -65,9 +65,9 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, 5f);
 
     }
-    void Move()
+    void Move(float direction)
     {
-        gameObject.transform.Translate(Input.GetAxis("Horizontal") * Vector3.right * speed * Time.deltaTime);
+        gameObject.transform.Translate( Vector3.right * direction * speed * Time.deltaTime);
     }
 
     void Control()
@@ -83,12 +83,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(leftButton))
         {
             transform.localScale = new Vector3(-1, 1, 1);
-            Move();
+            Move(-1);
         }
         if (Input.GetKey(rightButton))
         {
             transform.localScale = new Vector3(1, 1, 1);
-            Move();
+            Move(1);
         }
 
 
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
     }
 
 	
-	void OnCollisionEnter2D(Collision2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
 			if( other.gameObject.tag == "Bullet")
 		{
@@ -126,7 +126,10 @@ public class PlayerController : MonoBehaviour
 			BulletController bullet = gameobj.GetComponent<BulletController>();
 			bullet.Hit();
             Rigidbody2D playerRb = gameObject.GetComponent<Rigidbody2D>();
-            playerRb.AddForce(Vector2.right*bullet.damage);
+            float direction = gameobj.transform.localScale.x;
+            playerRb.AddForce(Vector2.right * bullet.damage * direction);
+
+            // print("hitted"+bullet.damage);
 		}
 	}
 

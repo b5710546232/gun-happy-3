@@ -105,7 +105,17 @@ public class PlayerController : MonoBehaviour
     /// <param name="other">The Collision2D data associated with this collision.</param>
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+     
+    }
+
+ /// <summary>
+	/// Sent each frame where a collider on another object is touching
+	/// this object's collider (2D physics only).
+	/// </summary>
+	/// <param name="other">The Collision2D data associated with this collision.</param>
+	void OnCollisionStay2D(Collision2D col)
+	{
+		   if (col.gameObject.tag == "Ground")
         {
             grounded = true;
             print("hi");
@@ -115,7 +125,8 @@ public class PlayerController : MonoBehaviour
             grounded = false;
             print("false");
         }
-    }
+		
+	}
 
     void FixedUpdate()
     {

@@ -15,9 +15,10 @@ public class GunController : MonoBehaviour {
 		// GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);
         Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
-        float bulletSpeed = 10f;
+		float bulletSpeed = 3f;
         rbBullet.velocity = new Vector2(bulletSpeed*direction, rbBullet.velocity.y);
-		gameobj.transform.localScale.Set(direction, 1, 1);
+		gameobj.transform.localScale = new Vector3(direction, 1, 1);
+
 	}
 	
 }

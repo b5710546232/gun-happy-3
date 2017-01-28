@@ -15,6 +15,7 @@ public class BulletController : MonoBehaviour {
 	
 	public void Hit(){
 		// method of Hit
+		gameObject.SetActive(false);
 	}
 	void OnBecameInvisible() {
 		gameObject.SetActive(false);

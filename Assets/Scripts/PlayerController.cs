@@ -83,14 +83,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(leftButton))
         {
             transform.localScale = new Vector3(-1, 1, 1);
-			Move();
+            Move();
         }
         if (Input.GetKey(rightButton))
         {
             transform.localScale = new Vector3(1, 1, 1);
-			Move();
+            Move();
         }
-        
+
 
         if (Input.GetKeyDown(fireButton))
         {
@@ -98,34 +98,37 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     /// <summary>
-    /// Sent when an incoming collider makes contact with this object's
-    /// collider (2D physics only).
+    /// Sent each frame where a collider on another object is touching
+    /// this object's collider (2D physics only).
     /// </summary>
     /// <param name="other">The Collision2D data associated with this collision.</param>
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionStay2D(Collision2D other)
     {
-     
-    }
-
- /// <summary>
-	/// Sent each frame where a collider on another object is touching
-	/// this object's collider (2D physics only).
-	/// </summary>
-	/// <param name="other">The Collision2D data associated with this collision.</param>
-	void OnCollisionStay2D(Collision2D col)
-	{
-		   if (col.gameObject.tag == "Ground")
+        if (other.gameObject.tag == "Ground")
         {
+
             grounded = true;
-            print("hi");
         }
         else
         {
             grounded = false;
-            print("false");
         }
-		
+    }
+
+	/// <summary>
+	/// OnCollisionEnter is called when this collider/rigidbody has begun
+	/// touching another rigidbody/collider.
+	/// </summary>
+	/// <param name="other">The Collision data associated with this collision.</param>
+	void OnCollisionEnter2D(Collision2D other)
+	{
+			if( other.gameObject.tag == "Bullet")
+		{
+			BulletController bullet = other.gameObject.GetComponent<BulletController>();
+			bullet.Hit();
+		}
 	}
 
     void FixedUpdate()

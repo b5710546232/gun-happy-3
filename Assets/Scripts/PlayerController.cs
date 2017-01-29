@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     public KeyCode fireButton;
 
+
+
     // Use this for initialization
     void Start()
     {
@@ -49,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot(float direction)
     {
-        weapon.GetComponent<GunController>().fire(direction);
+        weapon.GetComponent<GunController>().fire(direction, gameObject);
 
 
         // use gun to fire
@@ -99,11 +101,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Sent each frame where a collider on another object is touching
-    /// this object's collider (2D physics only).
-    /// </summary>
-    /// <param name="other">The Collision2D data associated with this collision.</param>
     void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.tag == "Ground")
@@ -123,16 +120,22 @@ public class PlayerController : MonoBehaviour
 			if( other.gameObject.tag == "Bullet")
 		{
             GameObject gameobj = other.gameObject;
-			BulletController bullet = gameobj.GetComponent<BulletController>();
-			bullet.Hit();
+			BulletController bulletController = gameobj.GetComponent<BulletController>();
             Rigidbody2D playerRb = gameObject.GetComponent<Rigidbody2D>();
             float direction = gameobj.transform.localScale.x;
-            playerRb.AddForce(Vector2.right * bullet.damage * direction);
+
+            //bullethit
+            bulletController.Hit();
+            //addforece
+            playerRb.AddForce(Vector2.right * bulletController.damage * direction);
+            //check who is shooter
+            PlayerController shooter = bulletController.GetShooter();
 
             // print("hitted"+bullet.damage);
 		}
 	}
 
+  
 
     void FixedUpdate()
     {

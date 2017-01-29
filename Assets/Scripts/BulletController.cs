@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour {
 
 	public float damage = 100f;
+	private GameObject shooter;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,6 +14,14 @@ public class BulletController : MonoBehaviour {
 		return damage;
 	}
 	
+	public void SetShooter(GameObject shooter){
+		this.shooter = shooter;
+	}
+
+	public PlayerController GetShooter(){
+		return shooter.GetComponent<PlayerController>();
+	}
+
 	public void Hit(){
 		// method of Hit
 		gameObject.SetActive(false);

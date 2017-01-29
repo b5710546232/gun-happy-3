@@ -7,11 +7,20 @@ public class GunController : MonoBehaviour {
 	public GameObject pool;
 	public float projectileForce;
 
+	public float shotDelay = 0.2f;
+	private float lastBulletShotAt;
+
+	
 	// Use this for initialization
 	void Start () {
+		lastBulletShotAt = 0;
 	}
 
 	public void fire(float direction, GameObject shooter){
+
+ 		if (Time.time - this.lastBulletShotAt < shotDelay) return;
+    	lastBulletShotAt = Time.time;
+
 		// shoot fire the bullet
 		// GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public float padding = 0.2f;
 
-    public float health = 100f;
+    public float knockbackPoint = 0f;
 
     public bool grounded = false;
 
@@ -53,10 +53,6 @@ public class PlayerController : MonoBehaviour
     {
         weapon.GetComponent<GunController>().fire(direction, gameObject);
 
-
-        // use gun to fire
-        // gun.fire(direction);
-
     }
 
 
@@ -94,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(fireButton))
+        if (Input.GetKey(fireButton))
         {
             Shoot(transform.localScale.x);
         }
@@ -126,8 +122,11 @@ public class PlayerController : MonoBehaviour
 
             //bullethit
             bulletController.Hit();
+
+            //
+            knockbackPoint += bulletController.GetDamage();
             //addforece
-            playerRb.AddForce(Vector2.right * bulletController.damage * direction);
+            playerRb.AddForce(Vector2.right * knockbackPoint * direction);
             //check who is shooter
             PlayerController shooter = bulletController.GetShooter();
 

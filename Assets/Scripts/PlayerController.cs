@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     public KeyCode fireButton;
 
+    private PlayerController shooter;
+
 
 
     // Use this for initialization
@@ -108,17 +110,36 @@ public class PlayerController : MonoBehaviour
         {
             grounded = false;
         }
+
+         if( other.gameObject.tag == "DeadZone")
+         {
+             // go to spawn @ spawn point.
+             transform.position = Vector3.zero;
+             print("dead");
+             //add score to shooter who shot this player.
+         }
     }
 
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-			if( other.gameObject.tag == "Bullet")
+			BulletHitHandler(other);
+            DeadZoneHitHandler(other);
+	}
+
+
+    private void BulletHitHandler(Collider2D other){
+        if( other.gameObject.tag == "Bullet")
 		{
             GameObject gameobj = other.gameObject;
 			BulletController bulletController = gameobj.GetComponent<BulletController>();
             Rigidbody2D playerRb = gameObject.GetComponent<Rigidbody2D>();
             float direction = gameobj.transform.localScale.x;
+
+            shooter = bulletController.GetShooter();
+            if(shooter.Equals(this)){
+                return;
+            }
 
             //bullethit
             bulletController.Hit();
@@ -128,12 +149,20 @@ public class PlayerController : MonoBehaviour
             //addforece
             playerRb.AddForce(Vector2.right * knockbackPoint * direction);
             //check who is shooter
-            PlayerController shooter = bulletController.GetShooter();
 
             // print("hitted"+bullet.damage);
 		}
-	}
+    }
 
+    private void DeadZoneHitHandler(Collider2D other){
+         if( other.gameObject.tag == "DeadZone")
+         {
+             // go to spawn @ spawn point.
+             transform.position = Vector3.zero;
+             print("dead");
+             //add score to shooter who shot this player.
+         }
+    }
   
 
     void FixedUpdate()

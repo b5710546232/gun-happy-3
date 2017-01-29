@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
 
 
 
+    void Awake()
+    {
+        GetComponent<Rigidbody2D>().freezeRotation = true;
+    }
     // Use this for initialization
     void Start()
     {
@@ -67,7 +71,7 @@ public class PlayerController : MonoBehaviour
     }
     void Move(float direction)
     {
-        gameObject.transform.Translate( Vector3.right * direction * speed * Time.deltaTime);
+        gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
     }
 
     void Control()
@@ -111,33 +115,29 @@ public class PlayerController : MonoBehaviour
             grounded = false;
         }
 
-         if( other.gameObject.tag == "DeadZone")
-         {
-             // go to spawn @ spawn point.
-             transform.position = Vector3.zero;
-             print("dead");
-             //add score to shooter who shot this player.
-         }
+
     }
 
-	
-	void OnTriggerEnter2D(Collider2D other)
-	{
-			BulletHitHandler(other);
-            DeadZoneHitHandler(other);
-	}
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        BulletHitHandler(other);
+        DeadZoneHitHandler(other);
+    }
 
 
-    private void BulletHitHandler(Collider2D other){
-        if( other.gameObject.tag == "Bullet")
-		{
+    private void BulletHitHandler(Collider2D other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
             GameObject gameobj = other.gameObject;
-			BulletController bulletController = gameobj.GetComponent<BulletController>();
+            BulletController bulletController = gameobj.GetComponent<BulletController>();
             Rigidbody2D playerRb = gameObject.GetComponent<Rigidbody2D>();
             float direction = gameobj.transform.localScale.x;
 
             shooter = bulletController.GetShooter();
-            if(shooter.Equals(this)){
+            if (shooter.Equals(this))
+            {
                 return;
             }
 
@@ -151,19 +151,29 @@ public class PlayerController : MonoBehaviour
             //check who is shooter
 
             // print("hitted"+bullet.damage);
-		}
+        }
     }
 
-    private void DeadZoneHitHandler(Collider2D other){
-         if( other.gameObject.tag == "DeadZone")
-         {
-             // go to spawn @ spawn point.
-             transform.position = Vector3.zero;
-             print("dead");
-             //add score to shooter who shot this player.
-         }
+    private void DeadZoneHitHandler(Collider2D other)
+    {
+        if (other.gameObject.tag == "DeadZone")
+        {
+            // go to spawn @ spawn point.
+            Reset();
+
+            //add score to shooter who shot this player.
+        }
     }
-  
+
+    private void Reset()
+    {
+        transform.position = Vector3.zero;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        knockbackPoint = 0;
+
+    }
+
 
     void FixedUpdate()
     {

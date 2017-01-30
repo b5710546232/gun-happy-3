@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(rb.velocity.x, 5f);
+        rb.velocity = new Vector2(rb.velocity.normalized.x, 5f);
 
     }
     void Move(float direction)
@@ -110,11 +110,6 @@ public class PlayerController : MonoBehaviour
 
             grounded = true;
         }
-        else
-        {
-            grounded = false;
-        }
-
 
     }
 
@@ -123,6 +118,22 @@ public class PlayerController : MonoBehaviour
     {
         BulletHitHandler(other);
         DeadZoneHitHandler(other);
+        
+    }
+
+    /// <summary>
+    /// Sent when a collider on another object stops touching this
+    /// object's collider (2D physics only).
+    /// </summary>
+    /// <param name="other">The Collision2D data associated with this collision.</param>
+    void OnCollisionExit2D(Collision2D other)
+    {
+        
+           if (other.gameObject.tag == "Ground")
+        {
+
+            grounded = false;
+        }
     }
 
 

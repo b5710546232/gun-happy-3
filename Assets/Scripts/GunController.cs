@@ -10,11 +10,19 @@ public class GunController : MonoBehaviour {
 	public float shotDelay = 0.2f;
 	private float lastBulletShotAt;
 
+
+    public float padding_x = 0.12f;
+    public float padding_y = -0.1f;
+	public float pos_z = 1;
+
+
 	
 	// Use this for initialization
 	void Start () {
 		lastBulletShotAt = 0;
+		transform.localPosition = new Vector3(padding_x, padding_y, pos_z);
 	}
+
 
 	public void fire(float direction, GameObject shooter){
 

@@ -7,9 +7,6 @@ public class PlayerController : MonoBehaviour
     public float speed = 3f;
     public GameObject weapon;
 
-    public float padding_x = 0.2f;
-    public float padding_y = 0.2f;
-
     public float knockbackPoint = 0f;
 
     public bool grounded = false;
@@ -33,22 +30,26 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D playerRb;
 
+    public GameObject foot;
 
-
+    public bool isDown;
 
     void Awake()
     {
         GetComponent<Rigidbody2D>().freezeRotation = true;
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
+        weapon.transform.parent = this.transform;
+
+    
+        
     }
     // Use this for initialization
     void Start()
     {
+        foot = gameObject.transform.GetChild(0).gameObject;        
+        print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
-
-        weapon.transform.parent = this.transform;
-        weapon.transform.localPosition = new Vector3(padding_x, padding_y, weaponPositionZ);
     }
 
     public void ChangeWeapon(GameObject newWeapon)
@@ -62,6 +63,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         AnimationManage();
+        bool isGround  = foot.GetComponent<PlayerFootController>().isGrounded();
+        if(isGround){
+            isDown = false;
+        }
     }
 
     void Shoot(float direction)
@@ -74,11 +79,12 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        // playerRb.velocity = new Vector2(playerRb.velocity.normalized.x, jumpForce);
+        // playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
         // playerRb.velocity = new Vector2(0, jumpForce);
-        playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
-        // Vector2 jump = Vector2.up * jumpForce*30;
-        // playerRb.AddForce(jump);
+        // playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
+        // gameObject.transform.Translate(Vector3.up* jumpForce * Time.deltaTime);
+        Vector2 jump = Vector2.up * jumpForce*30;
+        playerRb.AddForce(jump);
 
 
     }
@@ -105,6 +111,7 @@ public class PlayerController : MonoBehaviour
 
     void Control()
     {
+        grounded = foot.GetComponent<PlayerFootController>().isGrounded();
         if (Input.GetKey(upButton))
         {
             if (grounded)
@@ -112,16 +119,20 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 grounded = false;
             }
+      
         }
         if (Input.GetKey(leftButton))
         {
             transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
         }
-        else if (Input.GetKey(rightButton))
+        if (Input.GetKey(rightButton))
         {
             transform.localScale = new Vector3(1, 1, 1);
             Move(1);
+        }
+        if(Input.GetKey(downButton)){
+            isDown = true;
         }
    
 
@@ -136,37 +147,12 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isWalk",grounded && (playerRb.velocity != Vector2.zero || Input.GetKey(rightButton)|| Input.GetKey(leftButton)));
     }
 
-    void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Ground")
-        {
-
-            grounded = true;
-        }
-
-    }
-
 
     void OnTriggerEnter2D(Collider2D other)
     {
         BulletHitHandler(other);
         DeadZoneHitHandler(other);
         
-    }
-
-    /// <summary>
-    /// Sent when a collider on another object stops touching this
-    /// object's collider (2D physics only).
-    /// </summary>
-    /// <param name="other">The Collision2D data associated with this collision.</param>
-    void OnCollisionExit2D(Collision2D other)
-    {
-        
-           if (other.gameObject.tag == "Ground")
-        {
-
-            grounded = false;
-        }
     }
 
 
@@ -221,5 +207,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Control();
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
+                                       LayerMask.NameToLayer("AirFloor"),
+                                        playerRb.velocity.y > 0 || isDown
+                                       );
     }
 }

@@ -27,11 +27,19 @@ public class PlayerController : MonoBehaviour
 
     private PlayerController shooter;
 
+    public float jumpForce = 3.5f;
+    private Animator anim;
+
+    Rigidbody2D playerRb;
+
+
 
 
     void Awake()
     {
         GetComponent<Rigidbody2D>().freezeRotation = true;
+        playerRb = gameObject.GetComponent<Rigidbody2D>();
+        anim = gameObject.GetComponent<Animator>();
     }
     // Use this for initialization
     void Start()
@@ -52,7 +60,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        AnimationManage();
     }
 
     void Shoot(float direction)
@@ -65,13 +73,17 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(rb.velocity.normalized.x, 5f);
+        playerRb.velocity = new Vector2(playerRb.velocity.normalized.x, jumpForce);
+        // playerRb.velocity = new Vector2(0, jumpForce);
+        // playerRb.AddForce( Vector2.up*jumpForce * 30 );
 
     }
     void Move(float direction)
     {
-        gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
+        // gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
+        // playerRb.velocity = Vector2.right*direction*speed;
+        playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
+        
     }
 
     void Control()
@@ -94,6 +106,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
             Move(1);
         }
+   
 
 
         if (Input.GetKey(fireButton))
@@ -102,6 +115,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void AnimationManage(){
+        anim.SetBool("isWalk",playerRb.velocity != Vector2.zero);
+    }
 
     void OnCollisionStay2D(Collision2D other)
     {
@@ -143,7 +159,6 @@ public class PlayerController : MonoBehaviour
         {
             GameObject gameobj = other.gameObject;
             BulletController bulletController = gameobj.GetComponent<BulletController>();
-            Rigidbody2D playerRb = gameObject.GetComponent<Rigidbody2D>();
             float direction = gameobj.transform.localScale.x;
 
             shooter = bulletController.GetShooter();
@@ -179,8 +194,8 @@ public class PlayerController : MonoBehaviour
     private void Reset()
     {
         transform.position = Vector3.zero;
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        playerRb.velocity = Vector2.zero;
+        playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
 
     }

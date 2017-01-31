@@ -7,13 +7,14 @@ public class PlayerController : MonoBehaviour
     public float speed = 3f;
     public GameObject weapon;
 
-    public float padding = 0.2f;
+    public float padding_x = 0.2f;
+    public float padding_y = 0.2f;
 
     public float knockbackPoint = 0f;
 
     public bool grounded = false;
 
-    public float weaponPositionZ = -5;
+    public float weaponPositionZ = 0;
 
     public KeyCode upButton;
 
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
 
         weapon.transform.parent = this.transform;
-        weapon.transform.localPosition = new Vector3(padding, 0, weaponPositionZ);
+        weapon.transform.localPosition = new Vector3(padding_x, padding_y, weaponPositionZ);
     }
 
     public void ChangeWeapon(GameObject newWeapon)

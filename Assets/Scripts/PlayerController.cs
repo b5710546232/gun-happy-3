@@ -74,16 +74,32 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        playerRb.velocity = new Vector2(playerRb.velocity.normalized.x, jumpForce);
+        // playerRb.velocity = new Vector2(playerRb.velocity.normalized.x, jumpForce);
         // playerRb.velocity = new Vector2(0, jumpForce);
-        // playerRb.AddForce( Vector2.up*jumpForce * 30 );
+        playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
+        // Vector2 jump = Vector2.up * jumpForce*30;
+        // playerRb.AddForce(jump);
+
 
     }
     void Move(float direction)
     {
-        // gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
+        gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
         // playerRb.velocity = Vector2.right*direction*speed;
-        playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
+        // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
+        // Vector2 movement = transform.right*direction*speed*5;
+        
+        // playerRb.AddForce(movement);
+        // float maxSpeed = 1.5f;
+        // if(playerRb.velocity.x > maxSpeed){
+        //     print("oh");
+        //     playerRb.velocity = new Vector2(maxSpeed,playerRb.velocity.y);
+        // }
+        // if(playerRb.velocity.x < -maxSpeed){
+        //     playerRb.velocity = new Vector2(-maxSpeed,playerRb.velocity.y);
+        // }
+
+
         
     }
 
@@ -102,7 +118,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
         }
-        if (Input.GetKey(rightButton))
+        else if (Input.GetKey(rightButton))
         {
             transform.localScale = new Vector3(1, 1, 1);
             Move(1);
@@ -117,7 +133,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void AnimationManage(){
-        anim.SetBool("isWalk",playerRb.velocity != Vector2.zero);
+        anim.SetBool("isWalk",grounded && (playerRb.velocity != Vector2.zero || Input.GetKey(rightButton)|| Input.GetKey(leftButton)));
     }
 
     void OnCollisionStay2D(Collision2D other)

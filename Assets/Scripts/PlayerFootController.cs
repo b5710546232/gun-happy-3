@@ -21,7 +21,7 @@ public class PlayerFootController : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Ground")
+        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "AirFloor")
         {
 
             grounded = true;
@@ -32,7 +32,7 @@ public class PlayerFootController : MonoBehaviour {
     void OnCollisionExit2D(Collision2D other)
     {
         
-           if (other.gameObject.tag == "Ground")
+           if (other.gameObject.tag == "Ground"|| other.gameObject.tag == "AirFloor")
         {
 
             grounded = false;

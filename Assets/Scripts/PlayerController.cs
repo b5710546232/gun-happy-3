@@ -41,13 +41,13 @@ public class PlayerController : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         weapon.transform.parent = this.transform;
 
-    
-        
+
+
     }
     // Use this for initialization
     void Start()
     {
-        foot = gameObject.transform.GetChild(0).gameObject;        
+        foot = gameObject.transform.GetChild(0).gameObject;
         print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
     }
@@ -63,10 +63,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         AnimationManage();
-        bool isGround  = foot.GetComponent<PlayerFootController>().isGrounded();
-        if(isGround){
-            isDown = false;
-        }
+
     }
 
     void Shoot(float direction)
@@ -83,7 +80,7 @@ public class PlayerController : MonoBehaviour
         // playerRb.velocity = new Vector2(0, jumpForce);
         // playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
         // gameObject.transform.Translate(Vector3.up* jumpForce * Time.deltaTime);
-        Vector2 jump = Vector2.up * jumpForce*30;
+        Vector2 jump = Vector2.up * jumpForce * 30;
         playerRb.AddForce(jump);
 
 
@@ -94,7 +91,7 @@ public class PlayerController : MonoBehaviour
         // playerRb.velocity = Vector2.right*direction*speed;
         // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
         // Vector2 movement = transform.right*direction*speed*5;
-        
+
         // playerRb.AddForce(movement);
         // float maxSpeed = 1.5f;
         // if(playerRb.velocity.x > maxSpeed){
@@ -106,7 +103,7 @@ public class PlayerController : MonoBehaviour
         // }
 
 
-        
+
     }
 
     void Control()
@@ -119,7 +116,7 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 grounded = false;
             }
-      
+
         }
         if (Input.GetKey(leftButton))
         {
@@ -131,10 +128,8 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
             Move(1);
         }
-        if(Input.GetKey(downButton)){
-            isDown = true;
-        }
-   
+
+
 
 
         if (Input.GetKey(fireButton))
@@ -143,8 +138,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void AnimationManage(){
-        anim.SetBool("isWalk",grounded && (playerRb.velocity != Vector2.zero || Input.GetKey(rightButton)|| Input.GetKey(leftButton)));
+    void AnimationManage()
+    {
+        anim.SetBool("isWalk", grounded && (playerRb.velocity != Vector2.zero || Input.GetKey(rightButton) || Input.GetKey(leftButton)));
     }
 
 
@@ -152,7 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         BulletHitHandler(other);
         DeadZoneHitHandler(other);
-        
+
     }
 
 
@@ -202,14 +198,36 @@ public class PlayerController : MonoBehaviour
         knockbackPoint = 0;
 
     }
+    
+    void Drop(){
+         bool drop = Input.GetKey(downButton);
+        if(drop){
+        //Vector2 jump = Vector2.up *jumpForce*10;
+        //playerRb.AddForce(jump);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
+                          LayerMask.NameToLayer("AirFloor"),
+                           drop
+                          );
+        foot.GetComponent<Collider2D>().enabled = false;
+        foot.GetComponent<Collider2D>().enabled = true;
+        }
+        else{
+              Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
+                          LayerMask.NameToLayer("AirFloor"),
+                           playerRb.velocity.y>0.0f
+                          );
+        }
+    
+      
+    }
 
 
     void FixedUpdate()
     {
+        Drop(); 
         Control();
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
-                                       LayerMask.NameToLayer("AirFloor"),
-                                        playerRb.velocity.y > 0 || isDown
-                                       );
+
+
     }
+
 }

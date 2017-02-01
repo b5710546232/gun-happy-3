@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFootController : MonoBehaviour {
-	private bool grounded;
+	public bool grounded;
 	// Use this for initialization
 	void Start () {
 		grounded = false;
@@ -21,7 +21,7 @@ public class PlayerFootController : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "AirFloor")
+        if (other.gameObject.tag == "Ground")
         {
 
             grounded = true;
@@ -32,10 +32,11 @@ public class PlayerFootController : MonoBehaviour {
     void OnCollisionExit2D(Collision2D other)
     {
         
-           if (other.gameObject.tag == "Ground"|| other.gameObject.tag == "AirFloor")
+           if (other.gameObject.tag == "Ground")
         {
 
             grounded = false;
+            
         }
     }
 

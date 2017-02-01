@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerController shooter;
 
-    public float jumpForce = 4f;
+    public float jumpForce = 3.6f;
     private Animator anim;
 
     Rigidbody2D playerRb;
@@ -91,8 +91,6 @@ public class PlayerController : MonoBehaviour
         sp = jumpForce;
 
         playerRb.velocity = new Vector2(playerRb.velocity.x,sp);
-
-
 
     }
     void Move(float direction)
@@ -218,11 +216,13 @@ public class PlayerController : MonoBehaviour
         //                   LayerMask.NameToLayer("AirFloor"),
         //                    drop
         //                   );
-        foot.GetComponent<Collider2D>().enabled = false;
+        foot.GetComponent<Collider2D>().isTrigger = true;
+        // foot.GetComponent<Collider2D>().enabled = false;
         // foot.GetComponent<Collider2D>().enabled = true;
         }
         else{
-            foot.GetComponent<Collider2D>().enabled = true;
+            foot.GetComponent<Collider2D>().isTrigger = false;
+            // foot.GetComponent<Collider2D>().enabled = true;
             //   Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
             //               LayerMask.NameToLayer("AirFloor"),
             //                playerRb.velocity.y>0.0f

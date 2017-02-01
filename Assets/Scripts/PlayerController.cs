@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerController shooter;
 
-    public float jumpForce = 3.5f;
+    public float jumpForce = 4f;
     private Animator anim;
 
     Rigidbody2D playerRb;
@@ -80,8 +80,18 @@ public class PlayerController : MonoBehaviour
         // playerRb.velocity = new Vector2(0, jumpForce);
         // playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
         // gameObject.transform.Translate(Vector3.up* jumpForce * Time.deltaTime);
-        Vector2 jump = Vector2.up * jumpForce * 30;
-        playerRb.AddForce(jump);
+        // Vector2 jump = Vector2.up * jumpForce * 30;
+        // playerRb.AddForce(jump);
+        // gameObject.transform.Translate(Vector3.up * jumpForce*30 * Time.deltaTime);
+        float sp = playerRb.velocity.y;
+        // sp += jumpForce;
+        // if(sp>jumpForce){
+        //     // sp = jumpForce;
+        // }
+        sp = jumpForce;
+
+        playerRb.velocity = new Vector2(playerRb.velocity.x,sp);
+
 
 
     }
@@ -109,7 +119,7 @@ public class PlayerController : MonoBehaviour
     void Control()
     {
         grounded = foot.GetComponent<PlayerFootController>().isGrounded();
-        if (Input.GetKey(upButton))
+        if (Input.GetKeyDown(upButton))
         {
             if (grounded)
             {
@@ -201,21 +211,22 @@ public class PlayerController : MonoBehaviour
     
     void Drop(){
          bool drop = Input.GetKey(downButton);
-        if(drop){
+        if(drop ||  playerRb.velocity.y>0.0f){
         //Vector2 jump = Vector2.up *jumpForce*10;
         //playerRb.AddForce(jump);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
-                          LayerMask.NameToLayer("AirFloor"),
-                           drop
-                          );
+        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
+        //                   LayerMask.NameToLayer("AirFloor"),
+        //                    drop
+        //                   );
         foot.GetComponent<Collider2D>().enabled = false;
-        foot.GetComponent<Collider2D>().enabled = true;
+        // foot.GetComponent<Collider2D>().enabled = true;
         }
         else{
-              Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
-                          LayerMask.NameToLayer("AirFloor"),
-                           playerRb.velocity.y>0.0f
-                          );
+            foot.GetComponent<Collider2D>().enabled = true;
+            //   Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
+            //               LayerMask.NameToLayer("AirFloor"),
+            //                playerRb.velocity.y>0.0f
+            //               );
         }
     
       

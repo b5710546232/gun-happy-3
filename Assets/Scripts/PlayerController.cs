@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -38,7 +39,9 @@ public class PlayerController : MonoBehaviour
     public    float duration = 0.5f;
     public float magnitude = 0.1f;
 
-    public GameObject canvas;
+    private GameObject canvas;
+
+    public string name = "player";
 
     void Awake()
     {
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         weapon.transform.parent = this.transform;
         canvas = gameObject.transform.GetChild(1).gameObject;
+        canvas.transform.GetChild(0).gameObject.GetComponent<Text>().text = name;
 
 
 
@@ -57,6 +61,7 @@ public class PlayerController : MonoBehaviour
         foot = gameObject.transform.GetChild(0).gameObject;
         print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
+
     }
 
     public void ChangeWeapon(GameObject newWeapon)

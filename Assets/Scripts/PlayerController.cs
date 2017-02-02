@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     public bool grounded = false;
 
+    public int live = 5;
+
     public float weaponPositionZ = 0;
 
     public KeyCode upButton;
@@ -33,6 +35,10 @@ public class PlayerController : MonoBehaviour
     public GameObject foot;
 
     public bool isDown;
+    public    float duration = 0.5f;
+    public float magnitude = 0.1f;
+
+    public GameObject canvas;
 
     void Awake()
     {
@@ -40,6 +46,7 @@ public class PlayerController : MonoBehaviour
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         weapon.transform.parent = this.transform;
+        canvas = gameObject.transform.GetChild(1).gameObject;
 
 
 
@@ -117,7 +124,7 @@ public class PlayerController : MonoBehaviour
     void Control()
     {
         grounded = foot.GetComponent<PlayerFootController>().isGrounded();
-        if (Input.GetKeyDown(upButton))
+        if (Input.GetKey(upButton))
         {
             if (grounded)
             {
@@ -129,11 +136,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(leftButton))
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            canvas.transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
         }
         if (Input.GetKey(rightButton))
         {
             transform.localScale = new Vector3(1, 1, 1);
+            canvas.transform.localScale = new Vector3(1, 1, 1);
+            print(canvas);
             Move(1);
         }
 
@@ -173,10 +183,10 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
-
+            PlayShake();
             //bullethit
             bulletController.Hit();
-
+            
             //
             knockbackPoint += bulletController.GetDamage();
             //addforece
@@ -186,6 +196,38 @@ public class PlayerController : MonoBehaviour
             // print("hitted"+bullet.damage);
         }
     }
+
+    void PlayShake(){
+        StopAllCoroutines();
+        StartCoroutine("Shake");
+    }
+    IEnumerator Shake() {
+        
+    print("shake");
+    float elapsed = 0f;
+    
+    Vector3 originalCamPos = Camera.main.transform.position;
+
+    while (elapsed < duration) {
+        
+        elapsed += Time.deltaTime;          
+        
+        float percentComplete = elapsed / duration;         
+        float damper = 1.0f - Mathf.Clamp(4.0f * percentComplete - 3.0f, 0.0f, 1.0f);
+        
+        // map value to [-1, 1]
+        float x = Random.value * 2.0f - 1.0f;
+        float y = Random.value * 2.0f - 1.0f;
+        x *= magnitude * damper;
+        y *= magnitude * damper;
+        
+        Camera.main.transform.position = new Vector3(x, y, originalCamPos.z);
+            
+        yield return null;
+    }
+    
+    Camera.main.transform.position = originalCamPos;
+}
 
     private void DeadZoneHitHandler(Collider2D other)
     {
@@ -237,8 +279,6 @@ public class PlayerController : MonoBehaviour
     {
         Drop(); 
         Control();
-
-
     }
 
 }

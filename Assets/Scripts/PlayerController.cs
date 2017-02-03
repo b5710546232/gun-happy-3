@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
     public string name = "player";
 
+    public GameObject PlayerInfo;
+
     void Awake()
     {
         GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -61,7 +63,15 @@ public class PlayerController : MonoBehaviour
         foot = gameObject.transform.GetChild(0).gameObject;
         print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
+        PlayerInfoInit();
 
+    }
+
+    void PlayerInfoInit(){
+        GameObject gbCanvas = PlayerInfo.transform.GetChild(2).gameObject;
+        GameObject PlayerInfoText = gbCanvas.transform.GetChild(0).gameObject;
+        GameObject PlayerName = PlayerInfoText.transform.GetChild(0).gameObject;
+        PlayerName.GetComponent<Text>().text = name;
     }
 
     public void ChangeWeapon(GameObject newWeapon)

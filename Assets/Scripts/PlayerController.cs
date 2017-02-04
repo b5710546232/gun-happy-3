@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
-            PlayShake();
+            // PlayShake();
             //bullethit
             bulletController.Hit();
             

@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public KeyCode fireButton;
 
+    public InputManager input;
+
     private PlayerController shooter;
 
     public float jumpForce = 3.6f;
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
         weapon.transform.parent = this.transform;
         canvas = gameObject.transform.GetChild(1).gameObject;
         canvas.transform.GetChild(0).gameObject.GetComponent<Text>().text = name;
-
+        input = transform.GetChild(2).gameObject.GetComponent<InputManager>();
 
 
     }
@@ -98,7 +100,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AnimationManage();
 
     }
 
@@ -153,7 +154,7 @@ public class PlayerController : MonoBehaviour
     void Control()
     {
         grounded = foot.GetComponent<PlayerFootController>().isGrounded();
-        if (Input.GetKey(upButton))
+        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
         {
             if (grounded)
             {
@@ -162,24 +163,26 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        if (Input.GetKey(leftButton))
+        if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton())  )
         {
             transform.localScale = new Vector3(-1, 1, 1);
             canvas.transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
+            AnimationManage();
         }
-        if (Input.GetKey(rightButton))
+        if (Input.GetKey(rightButton) || Input.GetKey(input.getRightButton()))
         {
             transform.localScale = new Vector3(1, 1, 1);
             canvas.transform.localScale = new Vector3(1, 1, 1);
             print(canvas);
             Move(1);
+            AnimationManage();
         }
 
 
 
 
-        if (Input.GetKey(fireButton))
+        if (Input.GetKey(fireButton) || Input.GetKey(input.getFireButton()))
         {
             Shoot(transform.localScale.x);
         }
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
     void AnimationManage()
     {
-        anim.SetBool("isWalk", grounded && (playerRb.velocity != Vector2.zero || Input.GetKey(rightButton) || Input.GetKey(leftButton)));
+        anim.SetBool("isWalk", grounded && (playerRb.velocity != Vector2.zero ));
     }
 
 
@@ -279,7 +282,7 @@ public class PlayerController : MonoBehaviour
     }
     
     void Drop(){
-         bool drop = Input.GetKey(downButton);
+         bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
         if(drop ||  playerRb.velocity.y>0.0f){
         //Vector2 jump = Vector2.up *jumpForce*10;
         //playerRb.AddForce(jump);

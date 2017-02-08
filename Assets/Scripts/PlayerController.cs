@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     public GameObject PlayerInfo;
 
     public int ID;
+
+    private float direction;
     void Awake()
     {
         GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -68,6 +70,7 @@ public class PlayerController : MonoBehaviour
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
 
         PlayerInfoInit();
+        direction = 1;
 
     }
 
@@ -106,7 +109,14 @@ public class PlayerController : MonoBehaviour
     void Shoot(float direction)
     {
         weapon.GetComponent<GunController>().fire(direction, gameObject);
+        TakeRecoil(10f);
 
+
+
+    }
+
+    void TakeRecoil(float recoil){
+        playerRb.AddForce(Vector2.right*(-direction)*recoil);
     }
 
 
@@ -141,30 +151,30 @@ public class PlayerController : MonoBehaviour
     }
     void Move(float direction)
     {
-
-        // float MoveForce =  direction * speed * 4;
-        // Vector2 horizontal = new Vector2(MoveForce+playerRb.velocity.x,0);
-        // Vector2 vertical = new Vector2(0,playerRb.velocity.y);
-        // Vector2 finalMovement = horizontal + vertical;
-        // finalMovement = new Vector2 (1,finalMovement.normalized.y);
-        // finalMovement = finalMovement * MoveForce;
-
-
-
+        this.direction = direction;
         gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        // // float MoveForce =  direction * speed * 4;
+        // // Vector2 horizontal = new Vector2(MoveForce+playerRb.velocity.x,0);
+        // // Vector2 vertical = new Vector2(0,playerRb.velocity.y);
+        // // Vector2 finalMovement = horizontal + vertical;
+        // // finalMovement = new Vector2 (1,finalMovement.normalized.y);
+        // // finalMovement = finalMovement * MoveForce;
 
-        // playerRb.velocity = Vector2.right*direction*speed;
-        // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
-        // Vector2 movement = transform.right*direction*speed*5;
+
+        // // Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
+        // // Vector2 vertical = new Vector2(0, jumpForce);
+        // // Vector2 final = horizontal + vertical;
+        // // final = new Vector2 (final.normalized.x,1);
+        // // playerRb.velocity = final * jumpForce;
+
+        // // playerRb.AddForce(final);
+        // gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+
+        // // playerRb.velocity = Vector2.right*direction*speed;
+        // // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
+        // // Vector2 movement = transform.right*direction*speed*5;
 
         
-        // float maxSpeed = 4;
-        // if(Mathf.Abs(playerRb.velocity.x) >= maxSpeed){
-        //     playerRb.velocity = finalMovement;
-        // }
-        // else{
-        //     playerRb.AddForce(Vector2.right*maxSpeed);
-        // }
 
 
     }

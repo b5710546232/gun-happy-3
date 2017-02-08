@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject foot;
 
+    private int jumpCounter = 2;
+
     public bool isDown;
     public    float duration = 0.5f;
     public float magnitude = 0.1f;
@@ -123,26 +125,9 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        // playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
-        // playerRb.velocity = new Vector2(0, jumpForce);
-        // playerRb.AddForce( new Vector2(playerRb.velocity.x, jumpForce*30));
-        // gameObject.transform.Translate(Vector3.up* jumpForce * Time.deltaTime);
-        // Vector2 jump = Vector2.up * jumpForce * 30;
-        // playerRb.AddForce(jump);
-        // gameObject.transform.Translate(Vector3.up * jumpForce*30 * Time.deltaTime);
-        // if(sp>jumpForce){
-        //     // sp = jumpForce;
-        // }
-    
-        // float diriection = 1f;
-        // if(playerRb.velocity.x<0)
-            // diriection = -1;
-
-        // float sp_x =  playerRb.velocity.normalized.x * sp * diriection;
-        
-
+  
         Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        Vector2 vertical = new Vector2(0, jumpForce);
+        Vector2 vertical = new Vector2(0, jumpForce + playerRb.velocity.y );
         Vector2 final = horizontal + vertical;
         final = new Vector2 (final.normalized.x,1);
         playerRb.velocity = final * jumpForce;
@@ -153,29 +138,6 @@ public class PlayerController : MonoBehaviour
     {
         this.direction = direction;
         gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
-        // // float MoveForce =  direction * speed * 4;
-        // // Vector2 horizontal = new Vector2(MoveForce+playerRb.velocity.x,0);
-        // // Vector2 vertical = new Vector2(0,playerRb.velocity.y);
-        // // Vector2 finalMovement = horizontal + vertical;
-        // // finalMovement = new Vector2 (1,finalMovement.normalized.y);
-        // // finalMovement = finalMovement * MoveForce;
-
-
-        // // Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        // // Vector2 vertical = new Vector2(0, jumpForce);
-        // // Vector2 final = horizontal + vertical;
-        // // final = new Vector2 (final.normalized.x,1);
-        // // playerRb.velocity = final * jumpForce;
-
-        // // playerRb.AddForce(final);
-        // gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
-
-        // // playerRb.velocity = Vector2.right*direction*speed;
-        // // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
-        // // Vector2 movement = transform.right*direction*speed*5;
-
-        
-
 
     }
 
@@ -183,12 +145,15 @@ public class PlayerController : MonoBehaviour
     {
 
         grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y<=0;
-        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
+        if(grounded){
+            jumpCounter = 2;
+        }
+        
+        if (Input.GetKeyDown(upButton) || Input.GetKeyDown(input.getUpButton() ))
         {
-            if (grounded)
-            {
+            if (jumpCounter>0){
                 Jump();
-                return;
+                jumpCounter--;
             }
 
         }
@@ -202,7 +167,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(1, 1, 1);
             canvas.transform.localScale = new Vector3(1, 1, 1);
-            print(canvas);
             Move(1);
         }
 

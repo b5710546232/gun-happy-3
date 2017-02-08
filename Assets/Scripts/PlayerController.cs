@@ -121,18 +121,39 @@ public class PlayerController : MonoBehaviour
         // playerRb.AddForce(jump);
         // gameObject.transform.Translate(Vector3.up * jumpForce*30 * Time.deltaTime);
         float sp = playerRb.velocity.y;
-        // sp += jumpForce;
+        sp += jumpForce;
         // if(sp>jumpForce){
         //     // sp = jumpForce;
         // }
-        sp = jumpForce;
+    
+        // float diriection = 1f;
+        // if(playerRb.velocity.x<0)
+            // diriection = -1;
 
-        playerRb.velocity = new Vector2(playerRb.velocity.x,sp);
+        // float sp_x =  playerRb.velocity.normalized.x * sp * diriection;
+        
+
+        Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
+        Vector2 vertical = new Vector2(0, jumpForce);
+        Vector2 final = horizontal + vertical;
+        final = new Vector2 (final.normalized.x,1);
+
+        // Vector2 moveDir = Vector2( Vector3.up).normalized;
+        Vector3 moveDir = Vector3.Cross(playerRb.velocity, Vector3.up).normalized;
+        playerRb.velocity = final * jumpForce;
+        print(moveDir);
 
     }
     void Move(float direction)
     {
-        gameObject.transform.Translate(Vector3.right * direction * speed * Time.deltaTime);
+
+        Vector2 horizontal = Vector2.right;
+        Vector2 vertical = new Vector2(0,playerRb.velocity.y);
+
+        Vector2 finalMovement = vertical.normalized + horizontal;
+
+
+        gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
         // playerRb.velocity = Vector2.right*direction*speed;
         // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
         // Vector2 movement = transform.right*direction*speed*5;
@@ -153,6 +174,7 @@ public class PlayerController : MonoBehaviour
 
     void Control()
     {
+
         grounded = foot.GetComponent<PlayerFootController>().isGrounded();
         if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
         {
@@ -283,7 +305,7 @@ public class PlayerController : MonoBehaviour
     
     void Drop(){
          bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
-        //  drop = drop && foot.GetComponent<PlayerFootController>().drop;
+         drop = drop && foot.GetComponent<PlayerFootController>().drop;
         if(drop ||  playerRb.velocity.y>0.0f){
         //Vector2 jump = Vector2.up *jumpForce*10;
         //playerRb.AddForce(jump);
@@ -310,6 +332,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         Drop(); 
         Control();
     }

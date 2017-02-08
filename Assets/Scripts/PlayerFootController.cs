@@ -24,11 +24,11 @@ public class PlayerFootController : MonoBehaviour {
     void OnCollisionStay2D(Collision2D other)
     {
 
-        // float RectHeightObj = other.collider.bounds.size.y;
-        // float upObj = other.collider.bounds.center.y + RectHeightObj/2;
+        float RectHeightObj = other.collider.bounds.size.y;
+        float upObj = other.collider.bounds.center.y + RectHeightObj/2;
 
-        // float footHeight = GetComponent<BoxCollider2D>().size.y;
-        // float downFoot = GetComponent<BoxCollider2D>().bounds.center.y - footHeight/2;
+        float footHeight = GetComponent<BoxCollider2D>().size.y;
+        float downFoot = GetComponent<BoxCollider2D>().bounds.center.y - footHeight/2;
         
       if (other.gameObject.tag == "Ground" || other.gameObject.tag == "AirFloor" )
         {
@@ -36,7 +36,7 @@ public class PlayerFootController : MonoBehaviour {
         }
         
         if(other.gameObject.tag == "AirFloor"){
-            // if(downFoot>=upObj)
+            if(downFoot>=upObj)
             drop = true;
         }
         if(other.gameObject.tag == "Ground"){

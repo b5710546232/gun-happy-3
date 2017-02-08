@@ -120,8 +120,6 @@ public class PlayerController : MonoBehaviour
         // Vector2 jump = Vector2.up * jumpForce * 30;
         // playerRb.AddForce(jump);
         // gameObject.transform.Translate(Vector3.up * jumpForce*30 * Time.deltaTime);
-        float sp = playerRb.velocity.y;
-        sp += jumpForce;
         // if(sp>jumpForce){
         //     // sp = jumpForce;
         // }
@@ -137,37 +135,36 @@ public class PlayerController : MonoBehaviour
         Vector2 vertical = new Vector2(0, jumpForce);
         Vector2 final = horizontal + vertical;
         final = new Vector2 (final.normalized.x,1);
-
-        // Vector2 moveDir = Vector2( Vector3.up).normalized;
-        Vector3 moveDir = Vector3.Cross(playerRb.velocity, Vector3.up).normalized;
         playerRb.velocity = final * jumpForce;
-        print(moveDir);
+
 
     }
     void Move(float direction)
     {
 
-        Vector2 horizontal = Vector2.right;
-        Vector2 vertical = new Vector2(0,playerRb.velocity.y);
+        // float MoveForce =  direction * speed * 4;
+        // Vector2 horizontal = new Vector2(MoveForce+playerRb.velocity.x,0);
+        // Vector2 vertical = new Vector2(0,playerRb.velocity.y);
+        // Vector2 finalMovement = horizontal + vertical;
+        // finalMovement = new Vector2 (1,finalMovement.normalized.y);
+        // finalMovement = finalMovement * MoveForce;
 
-        Vector2 finalMovement = vertical.normalized + horizontal;
 
 
         gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+
         // playerRb.velocity = Vector2.right*direction*speed;
         // playerRb.velocity = new Vector2(direction*speed, playerRb.velocity.y);
         // Vector2 movement = transform.right*direction*speed*5;
 
-        // playerRb.AddForce(movement);
-        // float maxSpeed = 1.5f;
-        // if(playerRb.velocity.x > maxSpeed){
-        //     print("oh");
-        //     playerRb.velocity = new Vector2(maxSpeed,playerRb.velocity.y);
+        
+        // float maxSpeed = 4;
+        // if(Mathf.Abs(playerRb.velocity.x) >= maxSpeed){
+        //     playerRb.velocity = finalMovement;
         // }
-        // if(playerRb.velocity.x < -maxSpeed){
-        //     playerRb.velocity = new Vector2(-maxSpeed,playerRb.velocity.y);
+        // else{
+        //     playerRb.AddForce(Vector2.right*maxSpeed);
         // }
-
 
 
     }
@@ -175,7 +172,7 @@ public class PlayerController : MonoBehaviour
     void Control()
     {
 
-        grounded = foot.GetComponent<PlayerFootController>().isGrounded();
+        grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y<=0;
         if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
         {
             if (grounded)
@@ -190,7 +187,6 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
             canvas.transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
-            AnimationManage();
         }
         if (Input.GetKey(rightButton) || Input.GetKey(input.getRightButton()))
         {
@@ -198,7 +194,6 @@ public class PlayerController : MonoBehaviour
             canvas.transform.localScale = new Vector3(1, 1, 1);
             print(canvas);
             Move(1);
-            AnimationManage();
         }
 
 
@@ -212,7 +207,9 @@ public class PlayerController : MonoBehaviour
 
     void AnimationManage()
     {
-        anim.SetBool("isWalk", grounded && (playerRb.velocity != Vector2.zero ));
+        bool check = Input.GetKey(rightButton) || Input.GetKey(input.getRightButton());
+        check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
+        anim.SetBool("isWalk", grounded && (Mathf.Abs(playerRb.velocity.x) != 0f)|| check);
     }
 
 
@@ -332,9 +329,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         Drop(); 
         Control();
+        AnimationManage();
     }
 
 }

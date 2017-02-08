@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
             if (grounded)
             {
                 Jump();
-                grounded = false;
+                return;
             }
 
         }
@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
     
     void Drop(){
          bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
-         drop = drop && foot.GetComponent<PlayerFootController>().drop;
+        //  drop = drop && foot.GetComponent<PlayerFootController>().drop;
         if(drop ||  playerRb.velocity.y>0.0f){
         //Vector2 jump = Vector2.up *jumpForce*10;
         //playerRb.AddForce(jump);

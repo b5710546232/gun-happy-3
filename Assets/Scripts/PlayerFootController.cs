@@ -8,7 +8,7 @@ public class PlayerFootController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		grounded = false;
-        drop = true;
+        drop = false;
 		
 	}
 	
@@ -24,11 +24,11 @@ public class PlayerFootController : MonoBehaviour {
     void OnCollisionStay2D(Collision2D other)
     {
 
-        float RectHeightObj = other.collider.bounds.size.y;
-        float upObj = other.collider.bounds.center.y + RectHeightObj/2;
+        // float RectHeightObj = other.collider.bounds.size.y;
+        // float upObj = other.collider.bounds.center.y + RectHeightObj/2;
 
-        float footHeight = GetComponent<BoxCollider2D>().size.y;
-        float downFoot = GetComponent<BoxCollider2D>().bounds.center.y - footHeight/2;
+        // float footHeight = GetComponent<BoxCollider2D>().size.y;
+        // float downFoot = GetComponent<BoxCollider2D>().bounds.center.y - footHeight/2;
         
       if (other.gameObject.tag == "Ground" || other.gameObject.tag == "AirFloor" )
         {
@@ -36,7 +36,7 @@ public class PlayerFootController : MonoBehaviour {
         }
         
         if(other.gameObject.tag == "AirFloor"){
-            if(downFoot>=upObj)
+            // if(downFoot>=upObj)
             drop = true;
         }
         if(other.gameObject.tag == "Ground"){
@@ -77,6 +77,24 @@ public class PlayerFootController : MonoBehaviour {
             grounded = false;
             drop = false;
         }
+    }
+    /// <summary>
+    /// Sent when another object leaves a trigger collider attached to
+    /// this object (2D physics only).
+    /// </summary>
+    /// <param name="other">The other Collider2D involved in this collision.</param>
+    void OnTriggerExit2D(Collider2D other)
+    {
+            if (other.gameObject.tag == "Ground")
+        {
+
+            grounded = false;
+        }
+         if(other.gameObject.tag == "AirFloor"){
+            grounded = false;
+            drop = false;
+        }
+        
     }
 
     void OnCollisionExit2D(Collision2D other)

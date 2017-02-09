@@ -115,14 +115,17 @@ public class PlayerController : MonoBehaviour
     void Shoot(float direction)
     {
         weapon.GetComponent<GunController>().fire(direction, gameObject);
-        TakeRecoil(10f);
+        TakeRecoil(5f);
 
 
 
     }
 
     void TakeRecoil(float recoil){
-        playerRb.AddForce(Vector2.right*(-direction)*recoil);
+
+        playerRb.AddForce(Vector2.right*( -direction )*recoil);
+        print(Vector2.right*( -direction )*recoil);
+        print("x"+playerRb.velocity.x);
     }
 
 
@@ -131,17 +134,34 @@ public class PlayerController : MonoBehaviour
     {
   
         Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        Vector2 vertical = new Vector2(0, jumpForce + playerRb.velocity.y );
+        Vector2 vertical = new Vector2(0, jumpForce*50 + playerRb.velocity.y );
         Vector2 final = horizontal + vertical;
-        final = new Vector2 (final.normalized.x,1);
-        playerRb.velocity = final * jumpForce;
+        final = new Vector2 (final.normalized.x,final.normalized.y);
+        // playerRb.velocity = final * jumpForce;
+        playerRb.AddForce(final * jumpForce*50);
+        print(playerRb.velocity);
 
 
     }
     void Move(float direction)
     {
         this.direction = direction;
-        gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        float F = speed*4f;
+        float v = (F/playerRb.mass)*Time.fixedDeltaTime;
+        // gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        Vector2 horizontal = new Vector2(10, 0);
+        Vector2 vertical = new Vector2(0, jumpForce*50 + playerRb.velocity.y );
+        Vector2 final = horizontal + vertical;
+        float maxSpeed = 4f;
+        	if(direction * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+			// ... add a force to the player.
+			GetComponent<Rigidbody2D>().AddForce(Vector2.right * direction * speed*4f);
+		// If the player's horizontal velocity is greater than the maxSpeed...
+		// if(Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
+			// ... set the player's velocity to the maxSpeed in the x axis.
+			// GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+
+        print(playerRb.velocity.x);
 
     }
 

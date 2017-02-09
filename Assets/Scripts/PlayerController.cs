@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float knockbackPoint = 0f;
 
     public bool grounded = false;
+    bool isJump = false;
 
     public int live = 5;
 
@@ -52,6 +53,9 @@ public class PlayerController : MonoBehaviour
     public int ID;
 
     private float direction;
+
+    private float jumpDelay = .4f;
+    private float lastJumpAt = 0f;
     void Awake()
     {
         GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -143,6 +147,7 @@ public class PlayerController : MonoBehaviour
 
     void Control()
     {
+        print(jumpCounter);
 
         grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y<=0;
         if(grounded){
@@ -151,10 +156,24 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
         {
-            if (jumpCounter>0){
-                Jump();
-                jumpCounter--;
+            if(!grounded && jumpCounter>0){
+                if (!(Time.time - this.lastJumpAt < jumpDelay)){
+                        lastJumpAt = Time.time;
+                        Jump();
+                        isJump = true;
+                        jumpCounter = 0;
+                }
+
             }
+            else if (jumpCounter>0 || grounded){
+                if (!(Time.time - this.lastJumpAt < jumpDelay)){
+                    lastJumpAt = Time.time;
+                    Jump();
+                    isJump = true;
+                    jumpCounter--;
+                }
+            }
+            
 
         }
         if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton())  )

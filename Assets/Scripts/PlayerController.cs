@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
             jumpCounter = 2;
         }
         
-        if (Input.GetKeyDown(upButton) || Input.GetKeyDown(input.getUpButton() ))
+        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
         {
             if (jumpCounter>0){
                 Jump();
@@ -278,23 +278,12 @@ public class PlayerController : MonoBehaviour
          bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
          drop = drop && foot.GetComponent<PlayerFootController>().drop;
         if(drop ||  playerRb.velocity.y>0.0f){
-        //Vector2 jump = Vector2.up *jumpForce*10;
-        //playerRb.AddForce(jump);
-        // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
-        //                   LayerMask.NameToLayer("AirFloor"),
-        //                    drop
-        //                   );
-        foot.GetComponent<Collider2D>().isTrigger = true;
-        // foot.GetComponent<Collider2D>().enabled = false;
-        // foot.GetComponent<Collider2D>().enabled = true;
+
+            foot.GetComponent<Collider2D>().isTrigger = true;
+
         }
         else{
             foot.GetComponent<Collider2D>().isTrigger = false;
-            // foot.GetComponent<Collider2D>().enabled = true;
-            //   Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Foot"),
-            //               LayerMask.NameToLayer("AirFloor"),
-            //                playerRb.velocity.y>0.0f
-            //               );
         }
     
       
@@ -303,8 +292,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Drop(); 
         Control();
+        Drop(); 
         AnimationManage();
     }
 

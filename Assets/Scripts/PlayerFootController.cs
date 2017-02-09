@@ -75,14 +75,10 @@ public class PlayerFootController : MonoBehaviour {
         }
          if(other.gameObject.tag == "AirFloor"){
             grounded = false;
-            drop = false;
+            drop = true;
         }
     }
-    /// <summary>
-    /// Sent when another object leaves a trigger collider attached to
-    /// this object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
+    
     void OnTriggerExit2D(Collider2D other)
     {
             if (other.gameObject.tag == "Ground")

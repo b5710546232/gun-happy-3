@@ -49,16 +49,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\BulletController.cs" />
-     <Compile Include="Assets\Scripts\BulletPoolController.cs" />
+     <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
+     <Compile Include="Assets\Scripts\Bullets\BulletPoolController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\GunController.cs" />
-     <Compile Include="Assets\Scripts\InputManager.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\PlayerFootController.cs" />
-     <Compile Include="Assets\Scripts\PlayerInfoController.cs" />
-     <Compile Include="Assets\Scripts\PlayerInfoMananger.cs" />
-     <Compile Include="Assets\Scripts\Weapon.cs" />
+     <Compile Include="Assets\Scripts\CombatTextManager.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerFootController.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerInfoController.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerInfoMananger.cs" />
+     <Compile Include="Assets\Scripts\Util\InputManager.cs" />
+     <Compile Include="Assets\Scripts\Weapon\GunController.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

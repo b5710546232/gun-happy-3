@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
         check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
 
         bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f) || check;
-        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.x) > 0.0f);
+        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.y) > 0.0f) ;
 
         weapon.GetComponent<GunController>().setWalk(isWalk);
         weapon.GetComponent<GunController>().setJump(isJump);
@@ -314,8 +314,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "DeadZone")
         {
             // go to spawn @ spawn point.
-            isDeath = true;
-            Reset();
+            // isDeath = true;
+            // // Reset();
             return;
             //add score to shooter who shot this player.
         }
@@ -360,6 +360,11 @@ public class PlayerController : MonoBehaviour
         Drop();
         AnimationManage();
         UpdatePlayerInfo();
+
+        if(Mathf.Abs(transform.position.y)>5.0f || Mathf.Abs(transform.position.x)>10.0f){
+            isDeath = true;
+            Reset();
+        }
     }
 
 }

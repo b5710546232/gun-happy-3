@@ -7,7 +7,7 @@ public class CombatText : MonoBehaviour {
 
 	private float speed;
 	private Vector3 direction;
-	private float fadetime;
+	private float fadeTime;
 
 	
 	
@@ -17,11 +17,11 @@ public class CombatText : MonoBehaviour {
 		transform.Translate(direction*translation);
 	}
 
-	public void Init(float speed,Vector3 direction,float fadetime)
+	public void Init(float speed,Vector3 direction,float fadeTime)
 	{
 		this.speed = speed;
 		this.direction = direction;
-		this.fadetime = fadetime;
+		this.fadeTime = fadeTime;
 		StartCoroutine("FadeOut");
 	}
 
@@ -29,7 +29,7 @@ public class CombatText : MonoBehaviour {
 
 		float startAlpha = GetComponent<Text>().color.a;
 
-		float rate = 1.0f/ fadetime;
+		float rate = 1.0f/ fadeTime;
 		float progress = 0.0f;
 
 		while(progress< 1.0){
@@ -40,5 +40,6 @@ public class CombatText : MonoBehaviour {
 
 			yield return null;
 		}
+		Destroy(gameObject);
 	}
 }

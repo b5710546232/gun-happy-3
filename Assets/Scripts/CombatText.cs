@@ -9,19 +9,39 @@ public class CombatText : MonoBehaviour {
 	private Vector3 direction;
 	private float fadeTime;
 
+	public AnimationClip criticalAnim;
+	private bool isCritical;
+
 	
 	
 	// Update is called once per frame
 	void Update () {
-		float translation = speed*Time.deltaTime;
-		transform.Translate(direction*translation);
+		if(!isCritical){
+			float translation = speed*Time.deltaTime;
+			transform.Translate(direction*translation);
+		}
+		
 	}
 
-	public void Init(float speed,Vector3 direction,float fadeTime)
+	public void Init(float speed,Vector3 direction,float fadeTime,bool isCritical)
 	{
 		this.speed = speed;
 		this.direction = direction;
 		this.fadeTime = fadeTime;
+		this.isCritical = isCritical;
+		if(isCritical){
+			GetComponent<Animator>().SetTrigger("isCritical");
+			StartCoroutine("Critical");
+		}
+		else{
+			StartCoroutine("FadeOut");
+		}
+		
+	}
+	private IEnumerator Critical(){
+		yield return new WaitForSeconds(criticalAnim.length);
+		print("hi");
+		isCritical = false;
 		StartCoroutine("FadeOut");
 	}
 

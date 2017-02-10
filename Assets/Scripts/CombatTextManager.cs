@@ -32,7 +32,7 @@ public class CombatTextManager : MonoBehaviour {
 		GameObject sct = Instantiate(textPrefab,position,Quaternion.identity);
 		sct.transform.SetParent(canvasTransform);
 		sct.GetComponent<RectTransform>().localScale = new Vector3(0.015f,0.015f,1);
-		sct.GetComponent<CombatText>().Init(speed,direction,fadeTime);
+		sct.GetComponent<CombatText>().Init(speed,direction,fadeTime,critical);
 		sct.GetComponent<Text>().text = text;
 		sct.GetComponent<Text>().color = color;
 	}

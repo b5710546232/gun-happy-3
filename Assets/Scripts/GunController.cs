@@ -11,8 +11,8 @@ public class GunController : MonoBehaviour {
 	private float lastBulletShotAt;
 
 
-    public float padding_x = 0.12f;
-    public float padding_y = -0.1f;
+    public float padding_x = 0.146f;
+    public float padding_y = -0.113f;
 	public float pos_z = 1;
 
 	public GameObject effect_shot;
@@ -44,6 +44,7 @@ public class GunController : MonoBehaviour {
 		// shoot fire the bullet
 		// GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);
+		// bulletController.transform.localPosition = new Vector2(transform.position.x+-1.023f,transform.position.y-0.615f);
         Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
 		// float shootForce =100f;
 		// rbBullet.AddForce(gameobj.transform.forward * shootForce);
@@ -54,7 +55,7 @@ public class GunController : MonoBehaviour {
 		
 		BulletController bulletController = gameobj.GetComponent<BulletController>();
 		bulletController.SetShooter(shooter);
-		bulletController.transform.localPosition = new Vector2(-1.023f,-0.615f);
+		
 
 		// effect_shot.transform.localPosition = new Vector3 (transform.position.x + 0.2f,transform.position.y);
 		effect_shot.SetActive(true);

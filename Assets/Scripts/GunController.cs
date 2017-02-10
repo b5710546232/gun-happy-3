@@ -17,6 +17,28 @@ public class GunController : MonoBehaviour {
 
 	public GameObject effect_shot;
 
+	public Animator anim;
+
+	    public bool isJump;
+
+    public bool isWalk;
+
+	/// <summary>
+	/// Awake is called when the script instance is being loaded.
+	/// </summary>
+	void Awake()
+	{
+		anim = GetComponent<Animator>();
+	}
+
+
+    public void setJump(bool val){
+        isJump = val;
+    }
+
+    public void setWalk(bool val){
+        isWalk = val;
+    }
 
 	
 	// Use this for initialization
@@ -63,5 +85,12 @@ public class GunController : MonoBehaviour {
 
 
 	}
+
+	void FixedUpdate()
+	{
+		anim.SetBool("isWalk", isWalk);
+        anim.SetBool("isJump", isJump);
+	}
+
 	
 }

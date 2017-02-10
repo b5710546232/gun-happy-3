@@ -77,6 +77,10 @@ public class PlayerController : MonoBehaviour
 
         PlayerInfoInit();
         direction = 1;
+        if(weapon!=null){
+            anim.Play("player_anim_idle",0,0);
+            weapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle",0,0);
+        }
 
     }
 
@@ -165,7 +169,6 @@ public class PlayerController : MonoBehaviour
                 if (!(Time.time - this.lastJumpAt < jumpDelay)){
                         lastJumpAt = Time.time;
                         Jump();
-                        isJump = true;
                         jumpCounter = 0;
                 }
 
@@ -174,7 +177,6 @@ public class PlayerController : MonoBehaviour
                 if (!(Time.time - this.lastJumpAt < jumpDelay)){
                     lastJumpAt = Time.time;
                     Jump();
-                    isJump = true;
                     jumpCounter--;
                 }
             }
@@ -207,8 +209,15 @@ public class PlayerController : MonoBehaviour
     {
         bool check = Input.GetKey(rightButton) || Input.GetKey(input.getRightButton());
         check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
-        anim.SetBool("isWalk", grounded && (Mathf.Abs(playerRb.velocity.x) != 0f)|| check);
-        anim.SetBool("isJump",!grounded || (Mathf.Abs(playerRb.velocity.x) > 0.0f) );
+
+        bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f)|| check ;
+        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.x) > 0.0f) ;
+
+        weapon.GetComponent<GunController>().setWalk(isWalk);
+        weapon.GetComponent<GunController>().setJump(isJump);
+        anim.SetBool( "isWalk" , isWalk);
+        anim.SetBool( "isJump" , isJump);
+        
 
 
     }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerFootController : MonoBehaviour {
 	public bool grounded;
     public bool drop;
+
+
 	// Use this for initialization
 	void Start () {
 		grounded = false;
@@ -106,5 +108,7 @@ public class PlayerFootController : MonoBehaviour {
             drop = false;
         }
     }
+
+    
 
 }

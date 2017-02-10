@@ -208,6 +208,9 @@ public class PlayerController : MonoBehaviour
         bool check = Input.GetKey(rightButton) || Input.GetKey(input.getRightButton());
         check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
         anim.SetBool("isWalk", grounded && (Mathf.Abs(playerRb.velocity.x) != 0f)|| check);
+        anim.SetBool("isJump",!grounded || (Mathf.Abs(playerRb.velocity.x) > 0.0f) );
+
+
     }
 
 

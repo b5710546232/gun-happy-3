@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviour
             // PlayShake();
             //bullethit
             bulletController.Hit();
-
+            CombatTextManager.Instance.CreateText(transform.position,"test",Color.black,false);
             //
             knockbackPoint = bulletController.GetDamage() * 3;
             //addforece

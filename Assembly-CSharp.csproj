@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletPoolController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\CombatText.cs" />
      <Compile Include="Assets\Scripts\CombatTextManager.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerFootController.cs" />

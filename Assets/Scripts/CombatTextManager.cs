@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class CombatTextManager : MonoBehaviour {
@@ -8,6 +9,7 @@ public class CombatTextManager : MonoBehaviour {
 	public float speed;
 	public GameObject textPrefab;
 	public RectTransform canvasTransform;
+	public Vector3 direction;
 	public float fadeTime;
 	// Use this for initialization
 
@@ -29,7 +31,10 @@ public class CombatTextManager : MonoBehaviour {
 	public void CreateText(Vector3 position, string text, Color color,bool critical){
 		GameObject sct = Instantiate(textPrefab,position,Quaternion.identity);
 		sct.transform.SetParent(canvasTransform);
-		sct.GetComponent<RectTransform>().localScale = new Vector3(0.02f,0.02f,1);
+		sct.GetComponent<RectTransform>().localScale = new Vector3(0.015f,0.015f,1);
+		sct.GetComponent<CombatText>().Init(speed,direction);
+		sct.GetComponent<Text>().text = text;
+		sct.GetComponent<Text>().color = color;
 	}
 	
 	// Update is called once per frame

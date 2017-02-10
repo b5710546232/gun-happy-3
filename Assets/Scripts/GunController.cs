@@ -54,7 +54,7 @@ public class GunController : MonoBehaviour {
 			effect_shot.SetActive(false);
 		}
 		effect_shot.transform.parent = transform;
-		effect_shot.transform.localPosition = new Vector2(0.203f,-0.012f);
+		effect_shot.transform.localPosition = new Vector2(0.203f,-0.001f);
 	}
 
 

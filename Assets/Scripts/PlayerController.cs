@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public int live = 5;
 
+
     public float weaponPositionZ = 0;
 
     public KeyCode upButton;
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private int jumpCounter = 2;
 
     public bool isDown;
-    public    float duration = 0.5f;
+    public float duration = 0.5f;
     public float magnitude = 0.1f;
 
     private GameObject canvas;
@@ -50,7 +51,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject PlayerInfo;
 
-    public int ID;
+    public int PID;
+
+    private bool isDeath = false;
 
     private float direction;
 
@@ -74,22 +77,19 @@ public class PlayerController : MonoBehaviour
         foot = gameObject.transform.GetChild(0).gameObject;
         print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
-
-        PlayerInfoInit();
         direction = 1;
-        if(weapon!=null){
-            anim.Play("player_anim_idle",0,0);
-            weapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle",0,0);
+        if (weapon != null)
+        {
+            anim.Play("player_anim_idle", 0, 0);
+            weapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle", 0, 0);
         }
 
     }
 
-    void PlayerInfoInit(){
-        PlayerInfo = Instantiate(PlayerInfo,transform.position,Quaternion.identity).gameObject;
-        if(ID==1)
-            PlayerInfo.transform.position = new Vector2(1.58f,0);
-        if(ID==2)
-            PlayerInfo.transform.position = new Vector2(3.24f,0);
+    public void SetPlayerInfo(GameObject PlayerInfo)
+    {
+        this.PlayerInfo = PlayerInfo;
+
 
         GameObject PlayerInfoText = PlayerInfo.transform.GetChild(2).gameObject;
 
@@ -97,10 +97,20 @@ public class PlayerController : MonoBehaviour
         PlayerName.GetComponent<Text>().text = name;
 
         GameObject LiveText = PlayerInfoText.transform.GetChild(1).gameObject;
-        LiveText.GetComponent<Text>().text = "live : "+live;
+        LiveText.GetComponent<Text>().text = "live : " + live;
 
         GameObject armmoText = PlayerInfoText.transform.GetChild(2).gameObject;
-        armmoText.GetComponent<Text>().text = "armmo : "+0;
+        armmoText.GetComponent<Text>().text = "armmo : " + 0;
+    }
+
+    public void UpdatePlayerInfo()
+    {
+        GameObject PlayerInfoText = PlayerInfo.transform.GetChild(2).gameObject;
+        GameObject LiveText = PlayerInfoText.transform.GetChild(1).gameObject;
+        LiveText.GetComponent<Text>().text = "live : " + live;
+
+        GameObject armmoText = PlayerInfoText.transform.GetChild(2).gameObject;
+        armmoText.GetComponent<Text>().text = "armmo : " + 0;
     }
 
     public void ChangeWeapon(GameObject newWeapon)
@@ -125,24 +135,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void TakeRecoil(float recoil){
+    void TakeRecoil(float recoil)
+    {
 
-        playerRb.AddForce(Vector2.right*( -direction )*recoil);
-        print(Vector2.right*( -direction )*recoil);
-        print("x"+playerRb.velocity.x);
+        playerRb.AddForce(Vector2.right * (-direction) * recoil);
+        print(Vector2.right * (-direction) * recoil);
+        print("x" + playerRb.velocity.x);
     }
 
 
 
     void Jump()
     {
-  
+
         Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        Vector2 vertical = new Vector2(0, jumpForce*50 + playerRb.velocity.y );
+        Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
         Vector2 final = horizontal + vertical;
-        final = new Vector2 (final.normalized.x,final.normalized.y);
+        final = new Vector2(final.normalized.x, final.normalized.y);
         // playerRb.velocity = final * jumpForce;
-        playerRb.AddForce(final * jumpForce*50);
+        playerRb.AddForce(final * jumpForce * 50);
         print(playerRb.velocity);
 
 
@@ -150,40 +161,45 @@ public class PlayerController : MonoBehaviour
     void Move(float direction)
     {
         this.direction = direction;
-       gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
 
     }
 
     void Control()
     {
-        print(jumpCounter);
 
-        grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y<=0;
-        if(grounded){
+
+        grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y <= 0;
+        if (grounded)
+        {
             jumpCounter = 2;
         }
-        
-        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton() ))
+
+        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton()))
         {
-            if(!grounded && jumpCounter>0){
-                if (!(Time.time - this.lastJumpAt < jumpDelay)){
-                        lastJumpAt = Time.time;
-                        Jump();
-                        jumpCounter = 0;
+            if (!grounded && jumpCounter > 0)
+            {
+                if (!(Time.time - this.lastJumpAt < jumpDelay))
+                {
+                    lastJumpAt = Time.time;
+                    Jump();
+                    jumpCounter = 0;
                 }
 
             }
-            else if (jumpCounter>0 || grounded){
-                if (!(Time.time - this.lastJumpAt < jumpDelay)){
+            else if (jumpCounter > 0 || grounded)
+            {
+                if (!(Time.time - this.lastJumpAt < jumpDelay))
+                {
                     lastJumpAt = Time.time;
                     Jump();
                     jumpCounter--;
                 }
             }
-            
+
 
         }
-        if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton())  )
+        if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton()))
         {
             transform.localScale = new Vector3(-1, 1, 1);
             canvas.transform.localScale = new Vector3(-1, 1, 1);
@@ -210,14 +226,14 @@ public class PlayerController : MonoBehaviour
         bool check = Input.GetKey(rightButton) || Input.GetKey(input.getRightButton());
         check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
 
-        bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f)|| check ;
-        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.x) > 0.0f) ;
+        bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f) || check;
+        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.x) > 0.0f);
 
         weapon.GetComponent<GunController>().setWalk(isWalk);
         weapon.GetComponent<GunController>().setJump(isJump);
-        anim.SetBool( "isWalk" , isWalk);
-        anim.SetBool( "isJump" , isJump);
-        
+        anim.SetBool("isWalk", isWalk);
+        anim.SetBool("isJump", isJump);
+
 
 
     }
@@ -247,9 +263,9 @@ public class PlayerController : MonoBehaviour
             // PlayShake();
             //bullethit
             bulletController.Hit();
-            
+
             //
-            knockbackPoint += bulletController.GetDamage();
+            knockbackPoint = bulletController.GetDamage() * 3;
             //addforece
             playerRb.AddForce(Vector2.right * knockbackPoint * direction);
             //check who is shooter
@@ -258,45 +274,49 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void PlayShake(){
+    void PlayShake()
+    {
         StopAllCoroutines();
         StartCoroutine("Shake");
     }
-    IEnumerator Shake() {
-        
-    print("shake");
-    float elapsed = 0f;
-    
-    Vector3 originalCamPos = Camera.main.transform.position;
+    IEnumerator Shake()
+    {
 
-    while (elapsed < duration) {
-        
-        elapsed += Time.deltaTime;          
-        
-        float percentComplete = elapsed / duration;         
-        float damper = 1.0f - Mathf.Clamp(4.0f * percentComplete - 3.0f, 0.0f, 1.0f);
-        
-        // map value to [-1, 1]
-        float x = Random.value * 2.0f - 1.0f;
-        float y = Random.value * 2.0f - 1.0f;
-        x *= magnitude * damper;
-        y *= magnitude * damper;
-        
-        Camera.main.transform.position = new Vector3(x, y, originalCamPos.z);
-            
-        yield return null;
+        print("shake");
+        float elapsed = 0f;
+
+        Vector3 originalCamPos = Camera.main.transform.position;
+
+        while (elapsed < duration)
+        {
+
+            elapsed += Time.deltaTime;
+
+            float percentComplete = elapsed / duration;
+            float damper = 1.0f - Mathf.Clamp(4.0f * percentComplete - 3.0f, 0.0f, 1.0f);
+
+            // map value to [-1, 1]
+            float x = Random.value * 2.0f - 1.0f;
+            float y = Random.value * 2.0f - 1.0f;
+            x *= magnitude * damper;
+            y *= magnitude * damper;
+
+            Camera.main.transform.position = new Vector3(x, y, originalCamPos.z);
+
+            yield return null;
+        }
+
+        Camera.main.transform.position = originalCamPos;
     }
-    
-    Camera.main.transform.position = originalCamPos;
-}
 
     private void DeadZoneHitHandler(Collider2D other)
     {
         if (other.gameObject.tag == "DeadZone")
         {
             // go to spawn @ spawn point.
+            isDeath = true;
             Reset();
-
+            return;
             //add score to shooter who shot this player.
         }
     }
@@ -307,30 +327,39 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
+        print("reset");
+        if(isDeath){
+            live--;
+        }
+        isDeath = false;
 
     }
-    
-    void Drop(){
-         bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
-         drop = drop && foot.GetComponent<PlayerFootController>().drop;
-        if(drop ||  playerRb.velocity.y>0.0f){
+
+    void Drop()
+    {
+        bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
+        drop = drop && foot.GetComponent<PlayerFootController>().drop;
+        if (drop || playerRb.velocity.y > 0.0f)
+        {
 
             foot.GetComponent<Collider2D>().isTrigger = true;
 
         }
-        else{
+        else
+        {
             foot.GetComponent<Collider2D>().isTrigger = false;
         }
-    
-      
+
+
     }
 
 
     void FixedUpdate()
     {
         Control();
-        Drop(); 
+        Drop();
         AnimationManage();
+        UpdatePlayerInfo();
     }
 
 }

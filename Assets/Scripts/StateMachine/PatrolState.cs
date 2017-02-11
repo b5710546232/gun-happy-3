@@ -5,8 +5,17 @@ using UnityEngine;
 public class PatrolState : IEnemyState
 {
 
+  private readonly StatePatternEnemy enemy;
+    private int nextWayPoint;
 
-    public void UpdateState() { }
+    public PatrolState (StatePatternEnemy statePatternEnemy)
+    {
+        enemy = statePatternEnemy;
+    }
+
+    public void UpdateState() { 
+        enemy.GetComponent<PlayerController>().Move(-1);
+    }
 
     public void OnTriggerEnter2D(Collider2D other) { }
 

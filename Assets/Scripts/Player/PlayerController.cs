@@ -126,12 +126,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Shoot(float direction)
+    public void Shoot(float direction)
     {
         weapon.GetComponent<GunController>().fire(direction, gameObject);
         TakeRecoil(5f);
-
-
 
     }
 
@@ -145,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    void Jump()
+    public void Jump()
     {
 
         Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
@@ -158,10 +156,18 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    void Move(float direction)
+    public void Move(float direction)
     {
+        transform.localScale = new Vector3(direction, 1, 1);
+        canvas.transform.localScale = new Vector3(direction, 1, 1);
         this.direction = direction;
-        gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        // gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        float maxSpeed = 1.0f;
+        if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
+        {
+            playerRb.AddForce(Vector2.right * direction * speed * 10f);
+            // print(playerRb.velocity.x);
+        }
 
     }
 
@@ -201,14 +207,10 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton()))
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-            canvas.transform.localScale = new Vector3(-1, 1, 1);
             Move(-1);
         }
         if (Input.GetKey(rightButton) || Input.GetKey(input.getRightButton()))
         {
-            transform.localScale = new Vector3(1, 1, 1);
-            canvas.transform.localScale = new Vector3(1, 1, 1);
             Move(1);
         }
 
@@ -227,7 +229,7 @@ public class PlayerController : MonoBehaviour
         check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
 
         bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f) || check;
-        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.y) > 0.0f) ;
+        bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.y) > 0.0f);
 
         weapon.GetComponent<GunController>().setWalk(isWalk);
         weapon.GetComponent<GunController>().setJump(isJump);
@@ -263,9 +265,9 @@ public class PlayerController : MonoBehaviour
             // PlayShake();
             //bullethit
             bulletController.Hit();
-            CombatTextManager.Instance.CreateText(transform.position,"HIT!",Color.white,true);
+            CombatTextManager.Instance.CreateText(transform.position, "HIT!", Color.white, true);
             //
-            knockbackPoint = bulletController.GetDamage() * 3;
+            knockbackPoint = bulletController.GetDamage() * 5.5f;
             //addforece
             playerRb.AddForce(Vector2.right * knockbackPoint * direction);
             //check who is shooter
@@ -328,7 +330,8 @@ public class PlayerController : MonoBehaviour
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
         print("reset");
-        if(isDeath){
+        if (isDeath)
+        {
             live--;
         }
         isDeath = false;
@@ -361,7 +364,8 @@ public class PlayerController : MonoBehaviour
         AnimationManage();
         UpdatePlayerInfo();
 
-        if(Mathf.Abs(transform.position.y)>5.0f || Mathf.Abs(transform.position.x)>10.0f){
+        if (Mathf.Abs(transform.position.y) > 5.0f || Mathf.Abs(transform.position.x) > 10.0f)
+        {
             isDeath = true;
             Reset();
         }

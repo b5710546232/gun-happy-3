@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class ChaseState : IEnemyState
 {
+ private readonly StatePatternEnemy enemy;
 
+    
+    public ChaseState (StatePatternEnemy statePatternEnemy)
+    {
+        enemy = statePatternEnemy;
+    }
 
     public void UpdateState() { }
 

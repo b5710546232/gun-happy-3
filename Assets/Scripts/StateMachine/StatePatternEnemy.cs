@@ -10,20 +10,20 @@ public class StatePatternEnemy : MonoBehaviour {
 	public Transform[] wayPoints;
 	public Transform eyes;
 	public Vector3 offset = new Vector3 (0,0.5f,0);
-	public MeshRenderer meshRendererFlag;
+
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IEnemyState currentState;
 	[HideInInspector] public ChaseState chaseState;
 	[HideInInspector] public AlertState alertState;
 	[HideInInspector] public PatrolState patroState;
-	// [HideInInspector] public NavMeshAgent navMeshAgent;
+
 
 	private void Awake(){
 		chaseState = new ChaseState(this);
 		alertState = new AlertState(this);
 		patroState = new PatrolState(this);
 
-		navMestAgent = GetComponent<NavMeshAgent>();
+
 	}
 	
 	// Use this for initialization
@@ -40,6 +40,6 @@ public class StatePatternEnemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		currentState.OnTriggerEnter2D(other)
+		currentState.OnTriggerEnter2D(other);
 	}
 }

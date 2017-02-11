@@ -21,17 +21,31 @@ public class PatrolState : IBotState
 
     public void ToPatrolState() { }
 
-    public void ToAlertState() { }
+    public void ToAlertState() { 
+        bot.currentState = bot.alertState;
+    }
 
-    public void ToChaseState() { }
+    public void ToChaseState() { 
+        bot.currentState = bot.chaseState;
+    }
 
     void Search(){
-        if(bot.getTarget().transform.position.x <= bot.transform.position.x){
-            bot.GetComponent<PlayerController>().Move(-1);
+     
+        if(bot.getTarget().transform.position.x - bot.transform.position.x < 0){
+            // bot.GetComponent<PlayerController>().Move(1);
+            Debug.Log("enemy is in left");
+            
         }
-        
-        else{
+        if(bot.getTarget().transform.position.x - bot.transform.position.x > 0){
+
+            if(bot.getTarget().transform.position.x - bot.transform.position.x <= 3f){
+                Debug.Log("in rage attack");    
+                ToAlertState();
+                return;
+            }
             bot.GetComponent<PlayerController>().Move(1);
+            Debug.Log("enemy is in right");
+            
         }
     }
 }

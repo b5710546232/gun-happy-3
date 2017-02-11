@@ -371,4 +371,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public float getDirection(){
+        return direction;
+    }
+
 }

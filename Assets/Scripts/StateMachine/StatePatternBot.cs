@@ -21,6 +21,8 @@ public class StatePatternBot : MonoBehaviour {
 
 	private PlayerController target;
 
+	public float attackRage = 1f;
+
 
 	private void Awake(){
 		chaseState = new ChaseState(this);

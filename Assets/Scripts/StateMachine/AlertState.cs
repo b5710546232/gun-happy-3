@@ -32,17 +32,23 @@ private readonly StatePatternBot bot;
      
         if(bot.getTarget().transform.position.x - bot.transform.position.x < 0){
             // bot.GetComponent<PlayerController>().Move(1);
-            Debug.Log("enemy is in left");
+            // Debug.Log("enemy is in left alert");
+            //  if(bot.getTarget().transform.position.x - bot.transform.position.x <= bot.attackRage){
+            //     ToPatrolState();
+            //     return;
+            // }
+            Debug.Log("enemy in left alert");
+            ToPatrolState();
             
         }
         if(bot.getTarget().transform.position.x - bot.transform.position.x > 0){
 
-            if(bot.getTarget().transform.position.x - bot.transform.position.x >= 3f){
-                Debug.Log("in rage attack");    
-                ToPatrolState();
-                return;
-            }
-            Debug.Log("enemy is in right");
+            // if(bot.getTarget().transform.position.x - bot.transform.position.x >= bot.attackRage){
+            //     ToPatrolState();
+            //     return;
+            // }
+            // Debug.Log("enemy is in right alert");
+            ToPatrolState();
             
         }
     }

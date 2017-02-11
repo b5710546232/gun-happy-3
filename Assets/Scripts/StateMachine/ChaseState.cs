@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseState : IEnemyState
+public class ChaseState : IBotState
 {
- private readonly StatePatternEnemy enemy;
+ private readonly StatePatternBot bot;
 
     
-    public ChaseState (StatePatternEnemy statePatternEnemy)
+    public ChaseState (StatePatternBot statePatternBot)
     {
-        enemy = statePatternEnemy;
+        bot = statePatternBot;
     }
 
     public void UpdateState() { }

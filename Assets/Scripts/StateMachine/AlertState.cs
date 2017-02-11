@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlertState : IEnemyState
+public class AlertState : IBotState
 {
 
-private readonly StatePatternEnemy enemy;
+private readonly StatePatternBot bot;
     private float searchTimer;
     
-    public AlertState (StatePatternEnemy statePatternEnemy)
+    public AlertState (StatePatternBot statePatternBot)
     {
-        enemy = statePatternEnemy;
+        bot = statePatternBot;
     }
-    public void UpdateState() { }
+    public void UpdateState() { 
+
+    }
 
     public void OnTriggerEnter2D(Collider2D other) { }
 
@@ -20,6 +22,8 @@ private readonly StatePatternEnemy enemy;
 
     public void ToAlertState() { }
 
-    public void ToChaseState() { }
+    public void ToChaseState() {
+        
+     }
 }
 

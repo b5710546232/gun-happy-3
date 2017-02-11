@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolState : IEnemyState
+public class PatrolState : IBotState
 {
 
-  private readonly StatePatternEnemy enemy;
+  private readonly StatePatternBot bot;
     private int nextWayPoint;
 
-    public PatrolState (StatePatternEnemy statePatternEnemy)
+    public PatrolState (StatePatternBot statePatternBot)
     {
-        enemy = statePatternEnemy;
+        bot = statePatternBot;
     }
 
     public void UpdateState() { 
-        enemy.GetComponent<PlayerController>().Move(-1);
+        Search();
     }
 
     public void OnTriggerEnter2D(Collider2D other) { }
@@ -24,5 +24,15 @@ public class PatrolState : IEnemyState
     public void ToAlertState() { }
 
     public void ToChaseState() { }
+
+    void Search(){
+        if(bot.getTarget().transform.position.x <= bot.transform.position.x){
+            bot.GetComponent<PlayerController>().Move(-1);
+        }
+        
+        else{
+            bot.GetComponent<PlayerController>().Move(1);
+        }
+    }
 }
 

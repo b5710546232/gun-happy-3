@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePatternEnemy : MonoBehaviour {
+public class StatePatternBot : MonoBehaviour {
 
 	public float searchingTurnSpeed = 120f;
 	public float searchingDuration = 4f;
@@ -11,17 +11,33 @@ public class StatePatternEnemy : MonoBehaviour {
 	public Transform eyes;
 	public Vector3 offset = new Vector3 (0,0.5f,0);
 
+	public List<PlayerController>enemies;
+
 	[HideInInspector] public Transform chaseTarget;
-	[HideInInspector] public IEnemyState currentState;
+	[HideInInspector] public IBotState currentState;
 	[HideInInspector] public ChaseState chaseState;
 	[HideInInspector] public AlertState alertState;
 	[HideInInspector] public PatrolState patroState;
+
+	private PlayerController target;
 
 
 	private void Awake(){
 		chaseState = new ChaseState(this);
 		alertState = new AlertState(this);
 		patroState = new PatrolState(this);
+		
+		   var p = GameObject.FindGameObjectsWithTag("Player");
+        enemies = new List<PlayerController>();
+        for (int i = 0; i < p.Length; i++)
+        {	
+			PlayerController player = p[i].GetComponent<PlayerController>();
+			if(player.PID != GetComponent<PlayerController>().PID)
+            enemies.Add(player);
+        }
+		print(enemies);
+		// test enemy
+		target = enemies[0];
 
 
 	}
@@ -41,5 +57,9 @@ public class StatePatternEnemy : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		currentState.OnTriggerEnter2D(other);
+	}
+
+	public PlayerController getTarget(){
+		return target;
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IEnemyState {
+public interface IBotState {
 
    void UpdateState();
 

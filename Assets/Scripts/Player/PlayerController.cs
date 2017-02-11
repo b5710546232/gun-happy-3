@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         foot = gameObject.transform.GetChild(0).gameObject;
-        print(gameObject.transform);
+        // print(gameObject.transform);
         // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
         direction = 1;
         if (weapon != null)

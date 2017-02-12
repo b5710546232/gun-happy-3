@@ -11,6 +11,8 @@ public class GunController : MonoBehaviour
     public float shotDelay = 0.2f;
     private float lastBulletShotAt;
 
+    public AudioClip shotsfx;
+
 
     public float padding_x = 0.146f;
     public float padding_y = -0.113f;
@@ -78,6 +80,10 @@ public class GunController : MonoBehaviour
 
         if (Time.time - this.lastBulletShotAt < shotDelay) return;
         lastBulletShotAt = Time.time;
+
+		//play sound
+        AudioSource.PlayClipAtPoint (shotsfx , transform.position ,0.5f);
+
 
         // shoot fire the bullet
         // GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;

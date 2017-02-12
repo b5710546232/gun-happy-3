@@ -15,6 +15,7 @@ public class PatrolState : IBotState
 
     public void UpdateState()
     {
+        GoToMiddle();
         Search();
     }
 
@@ -22,62 +23,77 @@ public class PatrolState : IBotState
 
     public void ToPatrolState() { }
 
-    public void ToAlertState()
+    public void ToCombatState()
     {
-        bot.currentState = bot.alertState;
+        bot.currentState = bot.combatState;
     }
 
     public void ToChaseState()
     {
         bot.currentState = bot.chaseState;
     }
+    public void ToIdleState(){
+        bot.currentState = bot.idleState;
+    }
+
+    void GoToMiddle(){
+        if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < -2.0f ){
+            // goto middle
+            ToIdleState();
+            Debug.LogError("go to middle");
+        }
+    }
 
     void Search()
     {
 
-           string s = "position y "+(bot.getTarget().transform.position.y - bot.transform.position.y);
-        Debug.Log(s);
-
-        if (bot.getTarget().transform.position.x - bot.transform.position.x < 0)
-        {
-            if (bot.getTarget().transform.position.x - bot.transform.position.x > -bot.attackRage)
-            {
-                // Debug.Log("in rage attack left");
-                // bot.GetComponent<PlayerController>().Move(-1);
-                // ToAlertState();
-                return;
-            }
-            bot.GetComponent<PlayerController>().Move(-1);
-            Debug.Log("enemy is in left patron");
-
-        }
-        if (bot.getTarget().transform.position.x - bot.transform.position.x > 0)
-        {
-
-            if (bot.getTarget().transform.position.x - bot.transform.position.x <= bot.attackRage)
-            {
-                // bot.GetComponent<PlayerController>().Move(1);
-                Debug.Log("in rage attack right");
-                // ToAlertState();
-                return;
-            }
-            bot.GetComponent<PlayerController>().Move(1);
-            Debug.Log("enemy is in right patron");
-
-        }
-        /***
+            /***
         enemy is higher
         so should jump
         ***/
-        if (bot.getTarget().transform.position.y - bot.transform.position.y > 0.0f){
+        float rectHeight = bot.controller.GetComponent<BoxCollider2D>().bounds.center.y /2;
+        // Debug.LogError(rectHeight+"height");
+        if (bot.getTarget().transform.position.y - bot.controller.transform.position.y > 0.2f ){
             // Debug.Log("should jump");
-            // bot.controller.Jump();
+            bot.controller.Jump();
         }
      
-          if (bot.getTarget().transform.position.y - bot.transform.position.y < 0.0f){
-            // bot.controller.Drop();
+          if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < 0.0f){
+            bot.controller.Drop();
             Debug.Log("down");
         }
+
+        //    string s = "position y "+(bot.getTarget().transform.position.y - bot.controller.transform.position.y);
+        // Debug.Log(s);
+
+        if (bot.getTarget().transform.position.x - bot.controller.transform.position.x < 0)
+        {
+            if (bot.getTarget().transform.position.x - bot.controller.transform.position.x > -bot.attackRage)
+            {
+                // Debug.Log("in rage attack left");
+                bot.controller.Move(-1);
+                ToCombatState();
+                return;
+            }
+            bot.controller.Move(-1);
+            Debug.Log("enemy is in left patron");
+
+        }
+        if (bot.getTarget().transform.position.x - bot.controller.transform.position.x > 0)
+        {
+
+            if (bot.getTarget().transform.position.x - bot.controller.transform.position.x <= bot.attackRage)
+            {
+                bot.controller.Move(1);
+                Debug.Log("in rage attack right");
+                ToCombatState();
+                return;
+            }
+            bot.controller.Move(1);
+            Debug.Log("enemy is in right patron");
+
+        }
+    
     }
 }
 

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseState : IBotState
+public class IdleState : IBotState
 {
  private readonly StatePatternBot bot;
 
     
-    public ChaseState (StatePatternBot statePatternBot)
+    public IdleState (StatePatternBot statePatternBot)
     {
         bot = statePatternBot;
     }

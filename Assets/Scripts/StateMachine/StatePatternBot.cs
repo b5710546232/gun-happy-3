@@ -16,8 +16,9 @@ public class StatePatternBot : MonoBehaviour {
 	[HideInInspector] public Transform chaseTarget;
 	[HideInInspector] public IBotState currentState;
 	[HideInInspector] public ChaseState chaseState;
-	[HideInInspector] public AlertState alertState;
+	[HideInInspector] public CombatState combatState;
 	[HideInInspector] public PatrolState patroState;
+	[HideInInspector] public IdleState idleState;
 
 	[HideInInspector] public PlayerController controller;
 
@@ -27,17 +28,19 @@ public class StatePatternBot : MonoBehaviour {
 
 
 	private void Awake(){
-		controller = GetComponent<PlayerController>();
+
+		controller = gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerController>();
 		chaseState = new ChaseState(this);
-		alertState = new AlertState(this);
+		combatState = new CombatState(this);
 		patroState = new PatrolState(this);
+		idleState = new IdleState(this);
 		
 		   var p = GameObject.FindGameObjectsWithTag("Player");
         enemies = new List<PlayerController>();
         for (int i = 0; i < p.Length; i++)
         {	
 			PlayerController player = p[i].GetComponent<PlayerController>();
-			if(player.PID != GetComponent<PlayerController>().PID)
+			if(player.PID != controller.PID)
             enemies.Add(player);
         }
 		print(enemies);

@@ -9,7 +9,8 @@ public interface IBotState {
 
     void ToPatrolState();
 
-    void ToAlertState();
+    void ToCombatState();
 
     void ToChaseState();
+    void ToIdleState();
 }

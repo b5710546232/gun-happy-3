@@ -40,6 +40,7 @@ public class PatrolState : IBotState
             if (bot.getTarget().transform.position.x - bot.transform.position.x > -bot.attackRage)
             {
                 Debug.Log("in rage attack left");
+                bot.GetComponent<PlayerController>().Move(-1);
                 ToAlertState();
                 return;
             }
@@ -52,6 +53,7 @@ public class PatrolState : IBotState
 
             if (bot.getTarget().transform.position.x - bot.transform.position.x <= bot.attackRage)
             {
+                bot.GetComponent<PlayerController>().Move(1);
                 Debug.Log("in rage attack right");
                 ToAlertState();
                 return;

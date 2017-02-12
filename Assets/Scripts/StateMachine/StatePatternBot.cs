@@ -19,12 +19,15 @@ public class StatePatternBot : MonoBehaviour {
 	[HideInInspector] public AlertState alertState;
 	[HideInInspector] public PatrolState patroState;
 
+	[HideInInspector] public PlayerController controller;
+
 	private PlayerController target;
 
 	public float attackRage = 1f;
 
 
 	private void Awake(){
+		controller = GetComponent<PlayerController>();
 		chaseState = new ChaseState(this);
 		alertState = new AlertState(this);
 		patroState = new PatrolState(this);

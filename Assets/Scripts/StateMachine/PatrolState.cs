@@ -35,11 +35,14 @@ public class PatrolState : IBotState
     void Search()
     {
 
+           string s = "position y "+(bot.getTarget().transform.position.y - bot.transform.position.y);
+        Debug.Log(s);
+
         if (bot.getTarget().transform.position.x - bot.transform.position.x < 0)
         {
             if (bot.getTarget().transform.position.x - bot.transform.position.x > -bot.attackRage)
             {
-                Debug.Log("in rage attack left");
+                // Debug.Log("in rage attack left");
                 // bot.GetComponent<PlayerController>().Move(-1);
                 // ToAlertState();
                 return;
@@ -66,8 +69,14 @@ public class PatrolState : IBotState
         enemy is higher
         so should jump
         ***/
-        if (bot.getTarget().transform.position.x - bot.transform.position.x > 0){
-
+        if (bot.getTarget().transform.position.y - bot.transform.position.y > 0.0f){
+            // Debug.Log("should jump");
+            // bot.controller.Jump();
+        }
+     
+          if (bot.getTarget().transform.position.y - bot.transform.position.y < 0.0f){
+            // bot.controller.Drop();
+            Debug.Log("down");
         }
     }
 }

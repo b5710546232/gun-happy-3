@@ -19,7 +19,9 @@ public class PatrolState : IBotState
         Search();
     }
 
-    public void OnTriggerEnter2D(Collider2D other) { }
+    public void OnTriggerEnter2D(Collider2D other) {
+
+     }
 
     public void ToPatrolState() { }
 
@@ -37,11 +39,13 @@ public class PatrolState : IBotState
     }
 
     void GoToMiddle(){
-        if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < -2.0f ){
+        bool outofState = Mathf.Abs(bot.getTarget().transform.position.x)>=1.5f;
+        if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < -2.0f ||outofState ){
             // goto middle
-            ToIdleState();
             Debug.LogError("go to middle");
+            ToIdleState();
         }
+        
     }
 
     void Search()
@@ -58,7 +62,7 @@ public class PatrolState : IBotState
             bot.controller.Jump();
         }
      
-          if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < 0.0f){
+          if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < rectHeight){
             bot.controller.Drop();
             Debug.Log("down");
         }
@@ -66,7 +70,7 @@ public class PatrolState : IBotState
         //    string s = "position y "+(bot.getTarget().transform.position.y - bot.controller.transform.position.y);
         // Debug.Log(s);
 
-        if (bot.getTarget().transform.position.x - bot.controller.transform.position.x < 0)
+        if (bot.getTarget().transform.position.x - bot.controller.transform.position.x <= 0)
         {
             if (bot.getTarget().transform.position.x - bot.controller.transform.position.x > -bot.attackRage)
             {

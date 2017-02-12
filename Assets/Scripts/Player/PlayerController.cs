@@ -131,16 +131,15 @@ public class PlayerController : MonoBehaviour
     public void Shoot(float direction)
     {
         weapon.GetComponent<GunController>().fire(direction, gameObject);
-        TakeRecoil(5f);
+        
 
     }
 
-    void TakeRecoil(float recoil)
+    public void TakeRecoil(float recoil)
     {
 
         playerRb.AddForce(Vector2.right * (-direction) * recoil);
         print(Vector2.right * (-direction) * recoil);
-        print("x" + playerRb.velocity.x);
     }
 
 
@@ -374,7 +373,7 @@ public class PlayerController : MonoBehaviour
 
     private void Reset()
     {
-        transform.position = Vector3.zero;
+        transform.position = new Vector2(0,1.61f);
         playerRb.velocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
@@ -437,7 +436,7 @@ public class PlayerController : MonoBehaviour
         AnimationManage();
         UpdatePlayerInfo();
 
-        if (Mathf.Abs(transform.position.y) > 5.0f || Mathf.Abs(transform.position.x) > 10.0f)
+        if (Mathf.Abs(transform.position.y) > 20.0f || Mathf.Abs(transform.position.x) > 10.0f)
         {
             isDeath = true;
             Reset();

@@ -77,6 +77,7 @@ public class GunController : MonoBehaviour {
 		
 		BulletController bulletController = gameobj.GetComponent<BulletController>();
 		bulletController.SetShooter(shooter);
+		shooter.GetComponent<PlayerController>().TakeRecoil(20f);
 		
 
 		// effect_shot.transform.localPosition = new Vector3 (transform.position.x + 0.2f,transform.position.y);

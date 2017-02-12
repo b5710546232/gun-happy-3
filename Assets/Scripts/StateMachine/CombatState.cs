@@ -44,6 +44,7 @@ public class CombatState : IBotState
             //     return;
             // }
             Debug.Log("enemy in left alert");
+            bot.controller.Move(-1);
             ToPatrolState();
 
         }
@@ -55,6 +56,7 @@ public class CombatState : IBotState
             //     return;
             // }
             // Debug.Log("enemy is in right alert");
+            bot.controller.Move(1);
             ToPatrolState();
 
         }

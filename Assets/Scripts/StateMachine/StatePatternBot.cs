@@ -29,7 +29,7 @@ public class StatePatternBot : MonoBehaviour {
 
 	private void Awake(){
 
-		controller = gameObject.transform.GetChild(0).gameObject.GetComponent<PlayerController>();
+		controller = GetComponent<PlayerController>();
 		chaseState = new ChaseState(this);
 		combatState = new CombatState(this);
 		patroState = new PatrolState(this);

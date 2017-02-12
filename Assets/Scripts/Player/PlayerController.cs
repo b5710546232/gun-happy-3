@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
             anim.Play("player_anim_idle", 0, 0);
             weapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle", 0, 0);
         }
+        weapon.GetComponent<GunController>().Setup();
 
     }
 
@@ -291,6 +292,13 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.gameObject.tag == "Weapon"){
+            ChangeWeapon(other.gameObject);
+            weapon.SetActive(false);
+            other.gameObject.tag = "Untagged";
+            weapon = other.gameObject;
+            weapon.GetComponent<GunController>().Setup();
+        }
         BulletHitHandler(other);
         DeadZoneHitHandler(other);
 

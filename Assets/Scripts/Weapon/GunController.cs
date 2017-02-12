@@ -54,7 +54,6 @@ public class GunController : MonoBehaviour
     void Start()
     {
         lastBulletShotAt = 0;
-        transform.localPosition = new Vector3(padding_x, padding_y, pos_z);
 
         if (effect_shot == null)
         {
@@ -70,6 +69,9 @@ public class GunController : MonoBehaviour
         effect_shot.transform.localPosition = new Vector2(fx_padding_x, fx_padding_y);
     }
 
+	public void Setup(){
+		transform.localPosition = new Vector3(padding_x, padding_y, pos_z);
+	}
 
     public void fire(float direction, GameObject shooter)
     {

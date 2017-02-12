@@ -18,7 +18,13 @@ public class GunController : MonoBehaviour
 
     public GameObject effect_shot;
 
+	public float offset_bullet_x;
+	public float offset_bullet_y;
+
     public Animator anim;
+
+	public float fx_padding_x = 0.203f;
+	public float fx_padding_y = -0.001f;
 
     public bool isJump;
 
@@ -61,7 +67,7 @@ public class GunController : MonoBehaviour
             effect_shot.SetActive(false);
         }
         effect_shot.transform.parent = transform;
-        effect_shot.transform.localPosition = new Vector2(0.203f, -0.001f);
+        effect_shot.transform.localPosition = new Vector2(fx_padding_x, fx_padding_y);
     }
 
 
@@ -73,7 +79,7 @@ public class GunController : MonoBehaviour
 
         // shoot fire the bullet
         // GameObject gameobj = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
-        GameObject gameobj = pool.GetComponent<BulletPoolController>().init(transform.position);
+        GameObject gameobj = pool.GetComponent<BulletPoolController>().init(new Vector3(transform.position.x + offset_bullet_x*shooter.GetComponent<PlayerController>().getDirection(),transform.position.y+offset_bullet_y,transform.position.z));
         // bulletController.transform.localPosition = new Vector2(transform.position.x+-1.023f,transform.position.y-0.615f);
         Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
         // float shootForce =100f;

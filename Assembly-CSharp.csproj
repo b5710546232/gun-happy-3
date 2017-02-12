@@ -49,9 +49,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AI\FSM\FSM.cs" />
-     <Compile Include="Assets\Scripts\AI\FSM\FSMState.cs" />
-     <Compile Include="Assets\Scripts\AI\GOAP\GoapAction.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletPoolController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />

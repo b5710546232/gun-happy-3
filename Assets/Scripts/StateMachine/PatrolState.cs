@@ -40,8 +40,8 @@ public class PatrolState : IBotState
             if (bot.getTarget().transform.position.x - bot.transform.position.x > -bot.attackRage)
             {
                 Debug.Log("in rage attack left");
-                bot.GetComponent<PlayerController>().Move(-1);
-                ToAlertState();
+                // bot.GetComponent<PlayerController>().Move(-1);
+                // ToAlertState();
                 return;
             }
             bot.GetComponent<PlayerController>().Move(-1);
@@ -53,13 +53,20 @@ public class PatrolState : IBotState
 
             if (bot.getTarget().transform.position.x - bot.transform.position.x <= bot.attackRage)
             {
-                bot.GetComponent<PlayerController>().Move(1);
+                // bot.GetComponent<PlayerController>().Move(1);
                 Debug.Log("in rage attack right");
-                ToAlertState();
+                // ToAlertState();
                 return;
             }
             bot.GetComponent<PlayerController>().Move(1);
             Debug.Log("enemy is in right patron");
+
+        }
+        /***
+        enemy is higher
+        so should jump
+        ***/
+        if (bot.getTarget().transform.position.x - bot.transform.position.x > 0){
 
         }
     }

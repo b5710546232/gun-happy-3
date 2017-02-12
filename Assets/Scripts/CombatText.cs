@@ -40,7 +40,6 @@ public class CombatText : MonoBehaviour {
 	}
 	private IEnumerator Critical(){
 		yield return new WaitForSeconds(criticalAnim.length);
-		print("hi");
 		isCritical = false;
 		StartCoroutine("FadeOut");
 	}

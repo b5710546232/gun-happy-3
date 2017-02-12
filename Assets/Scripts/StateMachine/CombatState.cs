@@ -14,6 +14,7 @@ public class CombatState : IBotState
     }
     public void UpdateState()
     {
+        GoToMiddle();
         bot.controller.Shoot(bot.controller.getDirection());
         Combat();
     }
@@ -24,6 +25,22 @@ public class CombatState : IBotState
     {
         bot.currentState = bot.patroState;
     }
+
+void GoToMiddle(){
+        bool outofState = Mathf.Abs(bot.getTarget().transform.position.x)>=1.2f;
+        if (bot.getTarget().transform.position.y - bot.controller.transform.position.y < -2.0f ||outofState ){
+            // goto middle
+            // Debug.LogError("go to middle");
+            if(bot.getTarget().transform.position.x<=0){
+                bot.controller.Move(-1);
+            }
+            else{
+                bot.controller.Move(1);
+            }
+        }
+        
+    }
+   
 
     public void ToCombatState() { }
 
@@ -43,7 +60,7 @@ public class CombatState : IBotState
             //     ToPatrolState();
             //     return;
             // }
-            Debug.Log("enemy in left alert");
+            // Debug.Log("enemy in left alert");
             bot.controller.Move(-1);
             ToPatrolState();
 

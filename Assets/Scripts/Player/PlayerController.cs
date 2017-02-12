@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
     {
 
         playerRb.AddForce(Vector2.right * (-direction) * recoil);
-        print(Vector2.right * (-direction) * recoil);
+        // print(Vector2.right * (-direction) * recoil);
     }
 
 

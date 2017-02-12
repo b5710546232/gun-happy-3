@@ -10,6 +10,7 @@ public class StatePatternBot : MonoBehaviour {
 	public Transform[] wayPoints;
 	public Transform eyes;
 	public Vector3 offset = new Vector3 (0,0.5f,0);
+	public float saveRage = 1.3f;
 
 	public List<PlayerController>enemies;
 

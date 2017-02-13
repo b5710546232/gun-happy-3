@@ -124,15 +124,30 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeWeapon(GameObject newWeapon)
     {
-        currenWeapon.transform.parent = null;
+        // currenWeapon.transform.parent = ;
+        newWeapon.transform.localScale  = new Vector3(getDirection(), 1, 1);
+        currenWeapon.SetActive(false);
         newWeapon.transform.parent = this.transform;
+        currenWeapon.SetActive(false);
+        newWeapon.gameObject.tag = "Untagged";
+        currenWeapon = newWeapon;
+        currenWeapon.GetComponent<GunController>().Setup(this);
 
+    }
+
+    private void ChangeToDefaultWeapon(){
+        if(currenWeapon.GetComponent<GunController>().OutOfBullets()){
+            currenWeapon.SetActive(false);
+            defaultWeapon.SetActive(true);
+            currenWeapon = defaultWeapon;
+            currenWeapon.GetComponent<GunController>().Setup(this);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        ChangeToDefaultWeapon();
     }
 
     public void Shoot(float direction)
@@ -299,10 +314,7 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Weapon"){
-            currenWeapon.SetActive(false);
-            other.gameObject.tag = "Untagged";
-            currenWeapon = other.gameObject;
-            currenWeapon.GetComponent<GunController>().Setup(this);
+
             ChangeWeapon(other.gameObject);
         }
         BulletHitHandler(other);

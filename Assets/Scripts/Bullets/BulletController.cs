@@ -7,6 +7,8 @@ public class BulletController : MonoBehaviour {
 	public float damage = 20f;
 	private GameObject shooter;
 	// Use this for initialization
+
+
 	void Start () {
 		
 	}

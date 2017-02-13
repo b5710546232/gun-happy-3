@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private int jumpCounter = 2;
 
     public bool isDown;
-    public float duration = 0.5f;
+    private float duration = 0.1f;
     public float magnitude = 0.1f;
 
     private GameObject canvas;
@@ -358,7 +358,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator Shake()
     {
 
-        print("shake");
         float elapsed = 0f;
 
         Vector3 originalCamPos = Camera.main.transform.position;
@@ -399,7 +398,8 @@ public class PlayerController : MonoBehaviour
 
     private void Reset()
     {
-        transform.position = new Vector2(0,1.61f);
+        StartCoroutine(Shake());
+        transform.position = new Vector2(0,2f);
         playerRb.velocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
@@ -463,7 +463,7 @@ public class PlayerController : MonoBehaviour
         AnimationManage();
         UpdatePlayerInfo();
 
-        if (Mathf.Abs(transform.position.y) > 20.0f || Mathf.Abs(transform.position.x) > 10.0f)
+        if (Mathf.Abs(transform.position.y) > 10.0f || Mathf.Abs(transform.position.x) > 10.0f)
         {
             isDeath = true;
             Reset();

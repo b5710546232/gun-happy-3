@@ -86,6 +86,10 @@ public class GunController : MonoBehaviour
         // transform.localScale = new Vector3(player.getDirection(), 1, 1);
     }
 
+    public void Reload(){
+         currentBullets = maxBullets;
+    }
+
     public void fire(float direction, GameObject shooter)
     {
 

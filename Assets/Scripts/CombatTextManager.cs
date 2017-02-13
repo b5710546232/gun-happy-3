@@ -36,6 +36,17 @@ public class CombatTextManager : MonoBehaviour {
 		sct.GetComponent<Text>().text = text;
 		sct.GetComponent<Text>().color = color;
 	}
+
+	public void CreateText(Vector3 position, string text, Color color,bool critical,int size){
+		GameObject sct = Instantiate(textPrefab,position,Quaternion.identity);
+		sct.transform.SetParent(canvasTransform);
+		sct.GetComponent<RectTransform>().localScale = new Vector3(0.015f,0.015f,1);
+		sct.GetComponent<CombatText>().Init(speed,direction,fadeTime,critical);
+		sct.GetComponent<Text>().text = text;
+		sct.GetComponent<Text>().fontSize = size;
+		sct.GetComponent<Text>().color = color;
+	}
+	
 	
 	// Update is called once per frame
 	void Update () {

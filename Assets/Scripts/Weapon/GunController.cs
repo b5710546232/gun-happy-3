@@ -71,8 +71,9 @@ public class GunController : MonoBehaviour
         effect_shot.transform.localPosition = new Vector2(fx_padding_x, fx_padding_y);
     }
 
-	public void Setup(){
+	public void Setup(PlayerController player){
 		transform.localPosition = new Vector3(padding_x, padding_y, pos_z);
+        // transform.localScale = new Vector3(player.getDirection(), 1, 1);
 	}
 
     public void fire(float direction, GameObject shooter)
@@ -82,7 +83,7 @@ public class GunController : MonoBehaviour
         lastBulletShotAt = Time.time;
 
 		//play sound
-        AudioSource.PlayClipAtPoint (shotsfx , transform.position ,0.5f);
+        // AudioSource.PlayClipAtPoint (shotsfx , transform.position ,0.5f);
 
 
         // shoot fire the bullet

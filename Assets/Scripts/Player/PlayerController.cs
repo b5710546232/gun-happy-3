@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 3f;
-    public GameObject weapon;
+    private GameObject currenWeapon;
 
     public float knockbackPoint = 0f;
 
@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public int live = 5;
 
 
-    public float weaponPositionZ = 0;
 
     public KeyCode upButton;
 
@@ -47,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject canvas;
 
+    public GameObject defaultWeapon;
+
     public string name = "player";
 
     public GameObject PlayerInfo;
@@ -66,10 +67,15 @@ public class PlayerController : MonoBehaviour
         GetComponent<Rigidbody2D>().freezeRotation = true;
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
-        weapon.transform.parent = this.transform;
         canvas = gameObject.transform.GetChild(1).gameObject;
         canvas.transform.GetChild(0).gameObject.GetComponent<Text>().text = name;
         input = transform.GetChild(2).gameObject.GetComponent<InputManager>();
+        
+        
+        if(currenWeapon==null){
+            currenWeapon = defaultWeapon;
+        }
+        currenWeapon.transform.parent = this.transform;
 
 
     }
@@ -78,14 +84,14 @@ public class PlayerController : MonoBehaviour
     {
         foot = gameObject.transform.GetChild(0).gameObject;
         // print(gameObject.transform);
-        // weapon = Instantiate(weapon,transform.position,Quaternion.identity);
+        // currenWeapon = Instantiate(currenWeapon,transform.position,Quaternion.identity);
         direction = 1;
-        if (weapon != null)
+        if (currenWeapon != null)
         {
             anim.Play("player_anim_idle", 0, 0);
-            weapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle", 0, 0);
+            currenWeapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle", 0, 0);
         }
-        weapon.GetComponent<GunController>().Setup();
+        currenWeapon.GetComponent<GunController>().Setup(this);
 
     }
 
@@ -118,7 +124,7 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeWeapon(GameObject newWeapon)
     {
-        weapon.transform.parent = null;
+        currenWeapon.transform.parent = null;
         newWeapon.transform.parent = this.transform;
 
     }
@@ -131,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot(float direction)
     {
-        weapon.GetComponent<GunController>().fire(direction, gameObject);
+        currenWeapon.GetComponent<GunController>().fire(direction, gameObject);
         
 
     }
@@ -280,8 +286,8 @@ public class PlayerController : MonoBehaviour
         bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f) || check;
         bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.y) > 0.0f);
 
-        weapon.GetComponent<GunController>().setWalk(isWalk);
-        weapon.GetComponent<GunController>().setJump(isJump);
+        currenWeapon.GetComponent<GunController>().setWalk(isWalk);
+        currenWeapon.GetComponent<GunController>().setJump(isJump);
         anim.SetBool("isWalk", isWalk);
         anim.SetBool("isJump", isJump);
 
@@ -293,11 +299,11 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Weapon"){
-            ChangeWeapon(other.gameObject);
-            weapon.SetActive(false);
+            currenWeapon.SetActive(false);
             other.gameObject.tag = "Untagged";
-            weapon = other.gameObject;
-            weapon.GetComponent<GunController>().Setup();
+            currenWeapon = other.gameObject;
+            currenWeapon.GetComponent<GunController>().Setup(this);
+            ChangeWeapon(other.gameObject);
         }
         BulletHitHandler(other);
         DeadZoneHitHandler(other);

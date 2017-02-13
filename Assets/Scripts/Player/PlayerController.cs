@@ -62,8 +62,11 @@ public class PlayerController : MonoBehaviour
     private float lastJumpAt = 0f;
 
     private bool isDrop = false;
+
+    public Color color;
     void Awake()
     {
+        GetComponent<SpriteRenderer>().color = color;
         GetComponent<Rigidbody2D>().freezeRotation = true;
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
@@ -339,7 +342,7 @@ public class PlayerController : MonoBehaviour
             // PlayShake();
             //bullethit
             bulletController.Hit();
-            CombatTextManager.Instance.CreateText(transform.position, "HIT!", Color.white, true);
+            CombatTextManager.Instance.CreateText(transform.position, "HIT!", new Color(251/255.0f,252/255.0f,170/255.0f,1), true);
             //
             knockbackPoint = bulletController.GetDamage() * 5.5f;
             //addforece

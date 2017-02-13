@@ -29,7 +29,9 @@ public class PlayerController : MonoBehaviour
 
     public InputManager input;
 
-    private PlayerController shooter;
+    public PlayerController shooter;
+
+    public PlayerController beater;
 
     public float jumpForce = 3.6f;
     private Animator anim;
@@ -339,6 +341,9 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
+            else{
+                beater = bulletController.GetShooter();
+            }
             // PlayShake();
             //bullethit
             bulletController.Hit();
@@ -411,6 +416,7 @@ public class PlayerController : MonoBehaviour
         {
             ChangeToDefaultWeapon();
             live--;
+            CombatTextManager.Instance.CreateText(beater.transform.position, "GG!", new Color(161/255.0f,239/255.0f,121/255.0f,1), true);
         }
         isDeath = false;
 

@@ -42,6 +42,9 @@ public class GunController : MonoBehaviour
     void Awake()
     {
         anim = GetComponent<Animator>();
+        if(pool==null){
+            pool = GameObject.Find("BulletPool");
+        }
     }
 
 

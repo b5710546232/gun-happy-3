@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void ChangeToDefaultWeapon(){
-        if(currenWeapon.GetComponent<GunController>().OutOfBullets()){
+        if(currenWeapon.GetComponent<GunController>().OutOfBullets() || isDeath){
             currenWeapon.SetActive(false);
             defaultWeapon.SetActive(true);
             currenWeapon = defaultWeapon;
@@ -406,6 +406,7 @@ public class PlayerController : MonoBehaviour
         print("reset");
         if (isDeath)
         {
+            ChangeToDefaultWeapon();
             live--;
         }
         isDeath = false;

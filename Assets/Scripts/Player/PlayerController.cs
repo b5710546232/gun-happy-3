@@ -109,6 +109,8 @@ public class PlayerController : MonoBehaviour
     {
         this.PlayerInfo = PlayerInfo;
 
+        GameObject PlayerIcon = PlayerInfo.transform.GetChild(0).gameObject;
+        PlayerIcon.GetComponent<SpriteRenderer>().color = color;
 
         GameObject PlayerInfoText = PlayerInfo.transform.GetChild(2).gameObject;
 

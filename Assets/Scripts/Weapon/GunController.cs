@@ -12,6 +12,9 @@ public class GunController : MonoBehaviour
     private float lastBulletShotAt;
 
     public AudioClip shotsfx;
+    public List<AudioClip> sfx_shoots;
+
+    public int index_sfx;
 
 
     public float padding_x = 0.146f;
@@ -86,6 +89,14 @@ public class GunController : MonoBehaviour
         // transform.localScale = new Vector3(player.getDirection(), 1, 1);
     }
 
+    private void PlaySoundSFX(){
+        
+        // // int index = (index_sfx++) % sfx_shoots.Count;
+        // //fix to index 0;
+        // int index = 0;
+        // AudioSource.PlayClipAtPoint(sfx_shoots[index],transform.position);
+    }
+
     public void Reload(){
          currentBullets = maxBullets;
     }
@@ -108,7 +119,7 @@ public class GunController : MonoBehaviour
             currentBullets--;
         }
 
-        //play sound
+        PlaySoundSFX();
         // AudioSource.PlayClipAtPoint (shotsfx , transform.position ,0.5f);
 
         // shoot fire the bullet

@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public float speed = 3f;
     private GameObject currenWeapon;
 
+    public List<AudioClip> sfx_hurts;
+
+    public int index_hurt;
+
     public float knockbackPoint = 0f;
 
     public bool grounded = false;
@@ -75,9 +79,10 @@ public class PlayerController : MonoBehaviour
         canvas = gameObject.transform.GetChild(1).gameObject;
         canvas.transform.GetChild(0).gameObject.GetComponent<Text>().text = name;
         input = transform.GetChild(2).gameObject.GetComponent<InputManager>();
-        
-        
-        if(currenWeapon==null){
+
+
+        if (currenWeapon == null)
+        {
             currenWeapon = defaultWeapon;
         }
         currenWeapon.transform.parent = this.transform;
@@ -130,7 +135,7 @@ public class PlayerController : MonoBehaviour
     public void ChangeWeapon(GameObject newWeapon)
     {
         // currenWeapon.transform.parent = ;
-        newWeapon.transform.localScale  = new Vector3(getDirection(), 1, 1);
+        newWeapon.transform.localScale = new Vector3(getDirection(), 1, 1);
         currenWeapon.SetActive(false);
         newWeapon.transform.parent = this.transform;
         currenWeapon.SetActive(false);
@@ -140,8 +145,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void ChangeToDefaultWeapon(){
-        if(currenWeapon.GetComponent<GunController>().OutOfBullets() || isDeath){
+    private void ChangeToDefaultWeapon()
+    {
+        if (currenWeapon.GetComponent<GunController>().OutOfBullets() || isDeath)
+        {
             currenWeapon.SetActive(false);
             defaultWeapon.SetActive(true);
             currenWeapon = defaultWeapon;
@@ -158,7 +165,7 @@ public class PlayerController : MonoBehaviour
     public void Shoot(float direction)
     {
         currenWeapon.GetComponent<GunController>().fire(direction, gameObject);
-        
+
 
     }
 
@@ -176,41 +183,41 @@ public class PlayerController : MonoBehaviour
 
         grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y <= 0;
         // logic
-         if (!grounded && jumpCounter > 0)
+        if (!grounded && jumpCounter > 0)
+        {
+            if (!(Time.time - this.lastJumpAt < jumpDelay))
             {
-                if (!(Time.time - this.lastJumpAt < jumpDelay))
-                {
-                    lastJumpAt = Time.time;
-                    // Jump();
-                     // jump method
-        Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
-        Vector2 final = horizontal + vertical;
-        final = new Vector2(final.normalized.x, final.normalized.y);
-        // playerRb.velocity = final * jumpForce;
-        playerRb.AddForce(final * jumpForce * 50);
-        print(playerRb.velocity);
-                    jumpCounter = 0;
-                }
+                lastJumpAt = Time.time;
+                // Jump();
+                // jump method
+                Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
+                Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
+                Vector2 final = horizontal + vertical;
+                final = new Vector2(final.normalized.x, final.normalized.y);
+                // playerRb.velocity = final * jumpForce;
+                playerRb.AddForce(final * jumpForce * 50);
+                print(playerRb.velocity);
+                jumpCounter = 0;
+            }
 
-            }
-            else if (jumpCounter > 0 || grounded)
+        }
+        else if (jumpCounter > 0 || grounded)
+        {
+            if (!(Time.time - this.lastJumpAt < jumpDelay))
             {
-                if (!(Time.time - this.lastJumpAt < jumpDelay))
-                {
-                    lastJumpAt = Time.time;
-                    // Jump();
-                     // jump method
-        Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-        Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
-        Vector2 final = horizontal + vertical;
-        final = new Vector2(final.normalized.x, final.normalized.y);
-        // playerRb.velocity = final * jumpForce;
-        playerRb.AddForce(final * jumpForce * 50);
-        print(playerRb.velocity);
-                    jumpCounter--;
-                }
+                lastJumpAt = Time.time;
+                // Jump();
+                // jump method
+                Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
+                Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
+                Vector2 final = horizontal + vertical;
+                final = new Vector2(final.normalized.x, final.normalized.y);
+                // playerRb.velocity = final * jumpForce;
+                playerRb.AddForce(final * jumpForce * 50);
+                print(playerRb.velocity);
+                jumpCounter--;
             }
+        }
 
         // // jump method
         // Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
@@ -290,8 +297,8 @@ public class PlayerController : MonoBehaviour
             Shoot(transform.localScale.x);
         }
 
-        
-        bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());    
+
+        bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
         if (drop)
         {
             Drop();
@@ -318,7 +325,8 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Weapon"){
+        if (other.gameObject.tag == "Weapon")
+        {
 
             ChangeWeapon(other.gameObject);
         }
@@ -341,13 +349,14 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
-            else{
+            else
+            {
                 beater = bulletController.GetShooter();
             }
             // PlayShake();
             //bullethit
             bulletController.Hit();
-            CombatTextManager.Instance.CreateText(transform.position, "HIT!", new Color(251/255.0f,252/255.0f,170/255.0f,1), true);
+            CombatTextManager.Instance.CreateText(transform.position, "HIT!", new Color(251 / 255.0f, 252 / 255.0f, 170 / 255.0f, 1), true);
             //
             knockbackPoint = bulletController.GetDamage() * 5.5f;
             //addforece
@@ -406,8 +415,9 @@ public class PlayerController : MonoBehaviour
 
     private void Reset()
     {
-        StartCoroutine(Shake());
-        transform.position = new Vector2(0,2f);
+        PlayShake();
+        PlaySoundHurt();
+        transform.position = new Vector2(0, 2f);
         playerRb.velocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
@@ -416,49 +426,54 @@ public class PlayerController : MonoBehaviour
         {
             ChangeToDefaultWeapon();
             live--;
-            CombatTextManager.Instance.CreateText(beater.transform.position, "GG!", new Color(161/255.0f,239/255.0f,121/255.0f,1), true,40);
+            CombatTextManager.Instance.CreateText(beater.transform.position, "GG!", new Color(161 / 255.0f, 239 / 255.0f, 121 / 255.0f, 1), true, 40);
         }
         isDeath = false;
 
     }
 
-    private IEnumerator DropProcess(){
-              
+    private IEnumerator DropProcess()
+    {
+
         float process = 0.0f;
         float limit = .1f;
-          while(process<limit){
-            foot.GetComponent<Collider2D>().isTrigger = true;       
+        while (process < limit)
+        {
+            foot.GetComponent<Collider2D>().isTrigger = true;
             isDrop = true;
             process += Time.deltaTime;
             yield return new WaitForFixedUpdate();
-            }         
-            isDrop = false;   
-        
+        }
+        isDrop = false;
+
     }
 
     public void Drop()
     {
-    
-                if( foot.GetComponent<PlayerFootController>().drop){
-                    StartCoroutine(DropProcess());
-                }  
+
+        if (foot.GetComponent<PlayerFootController>().drop)
+        {
+            StartCoroutine(DropProcess());
+        }
     }
 
-    void PassPlatform(){
-            
-         
-        
-        if ( playerRb.velocity.y > 0.0f)
+    void PassPlatform()
+    {
+
+
+
+        if (playerRb.velocity.y > 0.0f)
         {
-                foot.GetComponent<Collider2D>().isTrigger = true;       
-                
+            foot.GetComponent<Collider2D>().isTrigger = true;
+
         }
         else
         {
-            if(!isDrop){
+            if (!isDrop)
+            {
                 foot.GetComponent<Collider2D>().isTrigger = false;
             }
-            
+
         }
     }
 
@@ -479,8 +494,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public float getDirection(){
+    public float getDirection()
+    {
         return direction;
+    }
+
+    private void PlaySoundHurt(){
+           int index = (index_hurt++) % sfx_hurts.Count;
+        AudioSource.PlayClipAtPoint(sfx_hurts[index],transform.position);
     }
 
 }

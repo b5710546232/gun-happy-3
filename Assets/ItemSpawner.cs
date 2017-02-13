@@ -6,9 +6,15 @@ public class ItemSpawner : MonoBehaviour
 {
 
     public List<GameObject> spawnerPoints;
-	public List<GameObject> itemList;
+	public List<GameObject> itemList = new List<GameObject>(1);
 	public int randPointIndex;
     // Use this for initialization
+
+	void Awake()
+	{
+		spawnerPoints = new List<GameObject>();
+		itemList = new List<GameObject>();
+	}
     void Start()
     {
         foreach (Transform child in transform)

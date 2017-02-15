@@ -16,7 +16,7 @@ public class PatrolState : IBotState
     public void UpdateState()
     {
         Debug.LogWarning("idle");
-        if(bot.controller.transform.position.x < -bot.saveRage){
+        if(bot.controller.transform.position.x <= -bot.saveRage){
        
             bot.controller.Move(1);
                 //  if(Mathf.Abs(bot.getTarget().transform.position.x - bot.controller.transform.position.x)<0.2f ){

@@ -65,7 +65,7 @@ public class StatePatternBot : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		currentState.OnTriggerEnter2D(other);
+		// currentState.OnTriggerEnter2D(other);
 	}
 
 	public PlayerController getTarget(){

@@ -5,7 +5,6 @@ public interface IBotState {
 
    void UpdateState();
 
-    void OnTriggerEnter2D (Collider2D other);
 
     void ToPatrolState();
 

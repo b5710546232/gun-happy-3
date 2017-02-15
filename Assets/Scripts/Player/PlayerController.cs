@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 3f;
+    private float speed = 1f;
     private GameObject currenWeapon;
 
     public List<AudioClip> sfx_hurts;
@@ -69,9 +69,26 @@ public class PlayerController : MonoBehaviour
 
     private bool isDrop = false;
 
+private float noMovementThreshold = 0.0001f;
+ private const int noMovementFrames = 3;
+ Vector3[] previousLocations = new Vector3[noMovementFrames];
+ private bool isMoving;
+ public bool IsMoving
+ {
+     get{ return isMoving; }
+ }
+ 
+
     public Color color;
     void Awake()
     {
+
+          for(int i = 0; i < previousLocations.Length; i++)
+     {
+         previousLocations[i] = Vector3.zero;
+     }
+
+
         GetComponent<SpriteRenderer>().color = color;
         GetComponent<Rigidbody2D>().freezeRotation = true;
         playerRb = gameObject.GetComponent<Rigidbody2D>();
@@ -198,7 +215,6 @@ public class PlayerController : MonoBehaviour
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
                 playerRb.AddForce(final * jumpForce * 50);
-                print(playerRb.velocity);
                 jumpCounter = 0;
             }
 
@@ -234,16 +250,19 @@ public class PlayerController : MonoBehaviour
     }
     public void Move(float direction)
     {
+        gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
         transform.localScale = new Vector3(direction, 1, 1);
         canvas.transform.localScale = new Vector3(direction, 1, 1);
         this.direction = direction;
-        // gameObject.transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
-        float maxSpeed = 1.0f;
-        if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
-        {
-            playerRb.AddForce(Vector2.right * direction * speed * 10f);
-            // print(playerRb.velocity.x);
-        }
+
+
+        
+        // float maxSpeed = 1.0f;
+        // if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
+        // {
+        //     playerRb.AddForce(Vector2.right * direction * speed * 10f);
+        //     // print(playerRb.velocity.x);
+        // }
 
     }
 
@@ -317,7 +336,7 @@ public class PlayerController : MonoBehaviour
 
         currenWeapon.GetComponent<GunController>().setWalk(isWalk);
         currenWeapon.GetComponent<GunController>().setJump(isJump);
-        anim.SetBool("isWalk", isWalk);
+        anim.SetBool("isWalk", isWalk || isMoving);
         anim.SetBool("isJump", isJump);
 
 
@@ -482,6 +501,29 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // ===
+
+         for(int i = 0; i < previousLocations.Length - 1; i++)
+     {
+         previousLocations[i] = previousLocations[i+1];
+     }
+     previousLocations[previousLocations.Length - 1] = gameObject.transform.position;
+ 
+  
+     for(int i = 0; i < previousLocations.Length - 1; i++)
+     {
+         if(Vector3.Distance(previousLocations[i], previousLocations[i + 1]) >= noMovementThreshold)
+         {
+             //The minimum movement has been detected between frames
+             isMoving = true;
+             break;
+         }
+         else
+         {
+             isMoving = false;
+         }
+     }
+    //  =======
         PassPlatform();
         Control();
 

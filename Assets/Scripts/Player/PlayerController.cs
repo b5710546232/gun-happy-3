@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1.25f;
+    private float speed = 1.5f;
     private GameObject currenWeapon;
 
     public List<AudioClip> sfx_hurts;
@@ -256,6 +256,7 @@ private float noMovementThreshold = 0.0001f;
     }
     public void Move(float direction)
     {
+     
         gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
         transform.localScale = new Vector3(direction, 1, 1);
         canvas.transform.localScale = new Vector3(direction, 1, 1);
@@ -458,7 +459,9 @@ private float noMovementThreshold = 0.0001f;
         {
             ChangeToDefaultWeapon();
             live--;
-            CombatTextManager.Instance.CreateText(beater.transform.position, "GG!", new Color(161 / 255.0f, 239 / 255.0f, 121 / 255.0f, 1), true, 40);
+            if(beater!=null){
+                CombatTextManager.Instance.CreateText(beater.transform.position, "GG!", new Color(161 / 255.0f, 239 / 255.0f, 121 / 255.0f, 1), true, 40);
+            }
         }
         isDeath = false;
 
@@ -552,6 +555,10 @@ private float noMovementThreshold = 0.0001f;
     public float getDirection()
     {
         return direction;
+    }
+
+    public void SetDirction(float val){
+        direction = val;
     }
 
     private void PlaySoundHurt(){

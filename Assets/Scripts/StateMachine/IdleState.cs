@@ -17,17 +17,17 @@ public class IdleState : IBotState
     public void UpdateState()
     {
 
-        Debug.LogWarning("idle");
-        float midle_pos_x = 0;
-        float del_X = bot.getTarget().transform.position.x - bot.controller.transform.position.x;
-        float del_Y = bot.getTarget().transform.position.y - bot.controller.transform.position.y;
-        if (bot.controller.transform.position.x < -1.2f)
-        {
-            bot.controller.Move(1);
-        }
-        else if(bot.controller.transform.position.x >=1.2f)
-        {
-            bot.controller.Move(-1);
+        // Debug.LogWarning("idle");
+        // float midle_pos_x = 0;
+        // float del_X = bot.getTarget().transform.position.x - bot.controller.transform.position.x;
+        // float del_Y = bot.getTarget().transform.position.y - bot.controller.transform.position.y;
+        // if (bot.controller.transform.position.x < -1.2f)
+        // {
+        //     bot.controller.Move(1);
+        // }
+        // else if(bot.controller.transform.position.x >=1.2f)
+        // {
+        //     bot.controller.Move(-1);
 			//    if (del_X <= bot.attackRage && Mathf.Abs(del_Y) <= 2f)
             // {
             //     ToPatrolState();
@@ -36,29 +36,23 @@ public class IdleState : IBotState
             // {
             //     ToPatrolState();
             // }
-        }
+        // }
 		// else{
 
-		// }
-		 if (Mathf.Abs(del_X) <= bot.attackRage && Mathf.Abs(del_Y) <= 2f)
-            {
-                ToPatrolState();
-            }
-        // else if (del_X > -bot.attackRage)
+		// // }
+		//  if (Mathf.Abs(del_X) <= bot.attackRage && Mathf.Abs(del_Y) <= 2f)
         //     {
-        //         // ToPatrolState();
+        //         ToPatrolState();
         //     }
-			else{}
+        // // else if (del_X > -bot.attackRage)
+        // //     {
+        // //         // ToPatrolState();
+        // //     }
+		// 	else{}
 
 
 
     }
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-
-    }
-
 
 
     public void ToPatrolState()

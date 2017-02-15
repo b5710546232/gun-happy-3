@@ -8,7 +8,9 @@ public class StatePatternBot : MonoBehaviour {
 	public float searchingDuration = 4f;
 	public float sightRage = 20f;
 	public Transform[] wayPoints;
-	public Transform eyes;
+	public GameObject eye;
+	public GameObject eye2;
+	public GameObject eyeEnemy;
 	public Vector3 offset = new Vector3 (0,0.5f,0);
 	public float saveRage = 1.3f;
 
@@ -44,7 +46,7 @@ public class StatePatternBot : MonoBehaviour {
 			if(player.PID != controller.PID)
             enemies.Add(player);
         }
-		print(enemies);
+		// print(enemies);
 		// test enemy
 		target = enemies[0];
 
@@ -54,8 +56,13 @@ public class StatePatternBot : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentState = patroState;
+
+		// eye = Instantiate(eye,transform);
+		// eye.transform.localPosition = Vector2.zero;
 		
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {

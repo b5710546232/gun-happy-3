@@ -14,10 +14,34 @@ public class CombatState : IBotState
     }
     public void UpdateState()
     {
-        Debug.LogWarning("combat");
-        GoToMiddle();
+        // Debug.LogWarning("combat");
+        // GoToMiddle();
         bot.controller.Shoot(bot.controller.getDirection());
-        Combat();
+
+        Vector3 targetPos = bot.getTarget().transform.position;
+        Vector3 Pos = bot.controller.transform.position;
+        float rectHeight = bot.controller.GetComponent<BoxCollider2D>().bounds.center.y /2;
+
+        if(!bot.eye2.GetComponent<EyeController>().isHit){
+            ToPatrolState();
+        }
+        if(!bot.eye.GetComponent<EyeController>().isHit){
+            ToPatrolState();
+        }
+
+        if(Mathf.Abs(targetPos.y - Pos.y) > .02f){
+            ToChaseState();
+            // return;
+        }
+
+       if(Mathf.Abs(targetPos.x - Pos.x) < bot.attackRage){
+                bot.controller.Move(bot.controller.getDirection());
+            }
+        //    if(Mathf.Abs(targetPos.x - Pos.x) > bot.attackRage)
+           {
+            ToChaseState();
+        }
+        // Combat();
     }
 
     public void OnTriggerEnter2D(Collider2D other) { }
@@ -48,7 +72,7 @@ void GoToMiddle(){
 
     public void ToChaseState()
     {
-
+        bot.currentState = bot.chaseState;
     }
     public void ToIdleState(){}
     void Combat()

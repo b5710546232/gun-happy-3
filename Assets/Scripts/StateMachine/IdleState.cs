@@ -17,11 +17,11 @@ public class IdleState : IBotState
     public void UpdateState()
     {
 
-
+        Debug.LogWarning("idle");
         float midle_pos_x = 0;
         float del_X = bot.getTarget().transform.position.x - bot.controller.transform.position.x;
         float del_Y = bot.getTarget().transform.position.y - bot.controller.transform.position.y;
-        if (bot.controller.transform.position.x < 0f)
+        if (bot.controller.transform.position.x < -1.2f)
         {
             bot.controller.Move(1);
         }

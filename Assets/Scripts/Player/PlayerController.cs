@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1f;
+    private float speed = 1.25f;
     private GameObject currenWeapon;
 
     public List<AudioClip> sfx_hurts;
@@ -191,7 +191,13 @@ private float noMovementThreshold = 0.0001f;
     public void TakeRecoil(float recoil)
     {
 
-        playerRb.AddForce(Vector2.right * (-direction) * recoil);
+
+            Vector2 totalForce = playerRb.velocity + Vector2.right * -direction;
+            totalForce.Normalize();
+            totalForce.x = totalForce.x * recoil;
+            playerRb.AddForce( totalForce );
+
+        // playerRb.AddForce(Vector2.right * (-direction) * recoil);
         // print(Vector2.right * (-direction) * recoil);
     }
 
@@ -214,7 +220,7 @@ private float noMovementThreshold = 0.0001f;
                 Vector2 final = horizontal + vertical;
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
-                playerRb.AddForce(final * jumpForce * 50);
+                playerRb.AddForce(Vector2.up * jumpForce * 50);
                 jumpCounter = 0;
             }
 
@@ -381,7 +387,12 @@ private float noMovementThreshold = 0.0001f;
             //
             knockbackPoint = bulletController.GetDamage() * 5.5f;
             //addforece
-            playerRb.AddForce(Vector2.right * knockbackPoint * direction);
+            // Vector2 force = (Vector2.right * knockbackPoint * direction);
+            print( (playerRb.velocity + Vector2.right * direction ).ToString() );
+            Vector2 totalForce = playerRb.velocity + Vector2.right * direction;
+            totalForce.Normalize();
+            totalForce.x = totalForce.x * knockbackPoint;
+            playerRb.AddForce( totalForce );
             //check who is shooter
 
             // print("hitted"+bullet.damage);

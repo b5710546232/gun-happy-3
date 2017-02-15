@@ -14,6 +14,7 @@ public class CombatState : IBotState
     }
     public void UpdateState()
     {
+        Debug.LogWarning("combat");
         GoToMiddle();
         bot.controller.Shoot(bot.controller.getDirection());
         Combat();
@@ -23,6 +24,7 @@ public class CombatState : IBotState
 
     public void ToPatrolState()
     {
+        
         bot.currentState = bot.patroState;
     }
 

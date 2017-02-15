@@ -15,19 +15,20 @@ public class PatrolState : IBotState
 
     public void UpdateState()
     {
-        if(bot.controller.transform.position.x<-bot.saveRage){
+        Debug.LogWarning("idle");
+        if(bot.controller.transform.position.x < -bot.saveRage){
        
             bot.controller.Move(1);
-                 if(Mathf.Abs(bot.getTarget().transform.position.x - bot.controller.transform.position.x)<0.2f ){
-                ToCombatState();
-            }
+                //  if(Mathf.Abs(bot.getTarget().transform.position.x - bot.controller.transform.position.x)<0.2f ){
+                // ToCombatState();
+            // }
             return;
         }
         else if(bot.controller.transform.position.x>bot.saveRage){
             bot.controller.Move(-1);
-                 if(Mathf.Abs(bot.getTarget().transform.position.x - bot.controller.transform.position.x)<0.2f ){
-                ToCombatState();
-            }
+                //  if(Mathf.Abs(bot.getTarget().transform.position.x - bot.controller.transform.position.x)<0.2f ){
+                // ToCombatState();
+            // }
             return;
         }
         GoToMiddle();
@@ -94,11 +95,11 @@ public class PatrolState : IBotState
                 ToCombatState();
                 return;
             }
-            bot.controller.Move(-1);
+            // bot.controller.Move(-1);
             // Debug.Log("enemy is in left patron");
 
         }
-        if (bot.getTarget().transform.position.x - bot.controller.transform.position.x > 0)
+        else if (bot.getTarget().transform.position.x - bot.controller.transform.position.x > 0)
         {
 
             if (bot.getTarget().transform.position.x - bot.controller.transform.position.x <= bot.attackRage)
@@ -108,7 +109,7 @@ public class PatrolState : IBotState
                 ToCombatState();
                 return;
             }
-            bot.controller.Move(1);
+            // bot.controller.Move(1);
             // Debug.Log("enemy is in right patron");
 
         }

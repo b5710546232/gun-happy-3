@@ -38,7 +38,7 @@ public class StatePatternBot : MonoBehaviour {
 		patroState = new PatrolState(this);
 		idleState = new IdleState(this);
 		
-		   var p = GameObject.FindGameObjectsWithTag("Player");
+		var p = GameObject.FindGameObjectsWithTag("Player");
         enemies = new List<PlayerController>();
         for (int i = 0; i < p.Length; i++)
         {	

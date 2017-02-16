@@ -11,6 +11,7 @@ public class EyeController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        gameObject.tag = "Eye";
         isHit = false;
 
     }
@@ -29,8 +30,12 @@ public class EyeController : MonoBehaviour
     /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D other)
     {
+         if(other.gameObject.tag =="Bullets"){
+                print("SOSS")   ;
+            }
         foreach (string target in targets)
         {
+           
             if (other.gameObject.tag == target)
                 isHit = true;
         }
@@ -59,7 +64,6 @@ public class EyeController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-
         foreach (string target in targets)
         {
             if (other.gameObject.tag == target)

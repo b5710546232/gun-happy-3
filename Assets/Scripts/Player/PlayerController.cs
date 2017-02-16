@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public KeyCode upButton;
 
+    public GameObject body;
+
     public KeyCode leftButton;
 
     public KeyCode rightButton;
@@ -40,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 3.6f;
     private Animator anim;
 
-    Rigidbody2D playerRb;
+    public Rigidbody2D playerRb;
 
     public GameObject foot;
 
@@ -103,6 +105,7 @@ private float noMovementThreshold = 0.0001f;
             currenWeapon = defaultWeapon;
         }
         currenWeapon.transform.parent = this.transform;
+        
 
 
     }
@@ -119,6 +122,9 @@ private float noMovementThreshold = 0.0001f;
             currenWeapon.GetComponent<GunController>().GetComponent<Animator>().Play("gun_anim_idle", 0, 0);
         }
         currenWeapon.GetComponent<GunController>().Setup(this);
+
+        body.GetComponent<PlayerBodyController>().init(this);
+        
 
     }
 
@@ -366,6 +372,8 @@ private float noMovementThreshold = 0.0001f;
 
     private void BulletHitHandler(Collider2D other)
     {
+        // พรุ่งนี้ลองด้วย Parent.FindGameObjectsWithTag("Child");
+        return;
         if (other.gameObject.tag == "Bullet")
         {
             GameObject gameobj = other.gameObject;
@@ -389,7 +397,7 @@ private float noMovementThreshold = 0.0001f;
             knockbackPoint = bulletController.GetDamage() * 5.5f;
             //addforece
             // Vector2 force = (Vector2.right * knockbackPoint * direction);
-            print( (playerRb.velocity + Vector2.right * direction ).ToString() );
+            // print( (playerRb.velocity + Vector2.right * direction ).ToString() );
             Vector2 totalForce = playerRb.velocity + Vector2.right * direction;
             totalForce.Normalize();
             totalForce.x = totalForce.x * knockbackPoint;
@@ -454,7 +462,7 @@ private float noMovementThreshold = 0.0001f;
         playerRb.velocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         knockbackPoint = 0;
-        print("reset");
+        // print("reset");
         if (isDeath)
         {
             ChangeToDefaultWeapon();

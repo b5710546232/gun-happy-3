@@ -372,40 +372,40 @@ private float noMovementThreshold = 0.0001f;
 
     private void BulletHitHandler(Collider2D other)
     {
-        // พรุ่งนี้ลองด้วย Parent.FindGameObjectsWithTag("Child");
-        return;
-        if (other.gameObject.tag == "Bullet")
-        {
-            GameObject gameobj = other.gameObject;
-            BulletController bulletController = gameobj.GetComponent<BulletController>();
-            float direction = gameobj.transform.localScale.x;
+        // use in PlayerBodyController
+        // return;
+        // if (other.gameObject.tag == "Bullet")
+        // {
+        //     GameObject gameobj = other.gameObject;
+        //     BulletController bulletController = gameobj.GetComponent<BulletController>();
+        //     float direction = gameobj.transform.localScale.x;
 
-            shooter = bulletController.GetShooter();
-            if (shooter.Equals(this))
-            {
-                return;
-            }
-            else
-            {
-                beater = bulletController.GetShooter();
-            }
-            // PlayShake();
-            //bullethit
-            bulletController.Hit();
-            CombatTextManager.Instance.CreateText(transform.position, "HIT!", new Color(251 / 255.0f, 252 / 255.0f, 170 / 255.0f, 1), true);
-            //
-            knockbackPoint = bulletController.GetDamage() * 5.5f;
-            //addforece
-            // Vector2 force = (Vector2.right * knockbackPoint * direction);
-            // print( (playerRb.velocity + Vector2.right * direction ).ToString() );
-            Vector2 totalForce = playerRb.velocity + Vector2.right * direction;
-            totalForce.Normalize();
-            totalForce.x = totalForce.x * knockbackPoint;
-            playerRb.AddForce( totalForce );
+        //     shooter = bulletController.GetShooter();
+        //     if (shooter.Equals(this))
+        //     {
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         beater = bulletController.GetShooter();
+        //     }
+        //     // PlayShake();
+        //     //bullethit
+        //     bulletController.Hit();
+        //     CombatTextManager.Instance.CreateText(transform.position, "HIT!", new Color(251 / 255.0f, 252 / 255.0f, 170 / 255.0f, 1), true);
+        //     //
+        //     knockbackPoint = bulletController.GetDamage() * 5.5f;
+        //     //addforece
+        //     // Vector2 force = (Vector2.right * knockbackPoint * direction);
+        //     // print( (playerRb.velocity + Vector2.right * direction ).ToString() );
+        //     Vector2 totalForce = playerRb.velocity + Vector2.right * direction;
+        //     totalForce.Normalize();
+        //     totalForce.x = totalForce.x * knockbackPoint;
+        //     playerRb.AddForce( totalForce );
             //check who is shooter
 
             // print("hitted"+bullet.damage);
-        }
+        // }
     }
 
     void PlayShake()

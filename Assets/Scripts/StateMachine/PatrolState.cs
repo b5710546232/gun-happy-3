@@ -9,6 +9,7 @@ public class PatrolState : IBotState
     private readonly StatePatternBot bot;
     private int nextWayPoint;
     public int dir = 1;
+    
 
     public PatrolState(StatePatternBot statePatternBot)
     {

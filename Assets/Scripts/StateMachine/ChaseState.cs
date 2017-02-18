@@ -16,6 +16,16 @@ public class ChaseState : IBotState
         Vector3 targetPos = bot.getTarget().transform.position;
         Vector3 Pos = bot.controller.transform.position;
         float rectHeight = bot.controller.GetComponent<BoxCollider2D>().bounds.center.y /2;
+        if(bot.eyeBullet.GetComponent<EyeController>().isHit){
+            if(bot.eyeBullet.GetComponent<EyeController>().temp!=null && bot.eyeBullet.GetComponent<EyeController>().temp.tag=="Bullet"){
+                // player.shooter.body.GetComponent<PlayerBodyController>().Equals(this)
+                if(!bot.eyeBullet.GetComponent<EyeController>().temp.GetComponent<BulletController>().GetShooter().body
+                .GetComponent<PlayerBodyController>()
+                .Equals(bot.controller.shooter.body.GetComponent<PlayerBodyController>() )){
+            bot.controller.Jump();
+            }
+            }
+        }
 
         if(!bot.eye2.GetComponent<EyeController>().isHit){
             ToPatrolState();

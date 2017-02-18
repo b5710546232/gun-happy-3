@@ -8,6 +8,8 @@ public class EyeController : MonoBehaviour
 
     public bool isHit = true;
 
+    public GameObject temp;
+
     // Use this for initialization
     void Start()
     {
@@ -23,21 +25,14 @@ public class EyeController : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Sent when another object enters a trigger collider attached to this
-    /// object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D other)
     {
-         if(other.gameObject.tag =="Bullets"){
-                print("SOSS")   ;
-            }
         foreach (string target in targets)
         {
            
             if (other.gameObject.tag == target)
                 isHit = true;
+                temp = other.gameObject;
         }
         // if (other.gameObject.tag == "Ground" || other.gameObject.tag == "AirFloor")
         //     {
@@ -68,6 +63,7 @@ public class EyeController : MonoBehaviour
         {
             if (other.gameObject.tag == target)
                 isHit = false;
+                // temp = null;
         }
 
 
@@ -77,4 +73,12 @@ public class EyeController : MonoBehaviour
         //     isHit = false;
         // }
     }
+
+    // /// <summary>
+    // /// Callback to draw gizmos that are pickable and always drawn.
+    // /// </summary>
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.DrawWireSphere(transform.position,1);
+    // }
 }

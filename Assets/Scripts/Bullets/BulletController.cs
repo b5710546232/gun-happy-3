@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
 
-	public float damage = 100f;
+	private float damage = 0;
 	private GameObject shooter;
 	// Use this for initialization
 
@@ -12,6 +12,11 @@ public class BulletController : MonoBehaviour {
 	void Start () {
 		
 	}
+
+	public void SetDamage(float val){
+		damage = val;
+	}
+
 	public float GetDamage(){
 		return damage;
 	}

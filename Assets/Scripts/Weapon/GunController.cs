@@ -41,6 +41,8 @@ public class GunController : MonoBehaviour
 
     public int currentBullets;
 
+    public float damage;
+
 
     void Awake()
     {
@@ -119,17 +121,19 @@ public class GunController : MonoBehaviour
             currentBullets--;
         }
 
+
         PlaySoundSFX();
         // AudioSource.PlayClipAtPoint (shotsfx , transform.position ,0.5f);
 
         // shoot fire the bullet
 
-        GameObject gameobj = pool.GetComponent<BulletPoolController>().init(new Vector3(transform.position.x + offset_bullet_x * shooter.GetComponent<PlayerController>().getDirection(), transform.position.y + offset_bullet_y, transform.position.z));
-        Rigidbody2D rbBullet = gameobj.GetComponent<Rigidbody2D>();
+        GameObject bullet = pool.GetComponent<BulletPoolController>().init(new Vector3(transform.position.x + offset_bullet_x * shooter.GetComponent<PlayerController>().getDirection(), transform.position.y + offset_bullet_y, transform.position.z));
+        Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
         rbBullet.velocity = new Vector2(projectileForce * direction, rbBullet.velocity.y);
-        gameobj.transform.localScale = new Vector3(direction, 1, 1);
+        bullet.transform.localScale = new Vector3(direction, 1, 1);
+        bullet.GetComponent<BulletController>().SetDamage(damage);
 
-        BulletController bulletController = gameobj.GetComponent<BulletController>();
+        BulletController bulletController = bullet.GetComponent<BulletController>();
         bulletController.SetShooter(shooter);
         shooter.GetComponent<PlayerController>().TakeRecoil(20f);
 

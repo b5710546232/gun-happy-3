@@ -10,6 +10,7 @@ public class StatePatternBot : MonoBehaviour {
 	public Transform[] wayPoints;
 	public GameObject eye;
 	public GameObject eye2;
+	public GameObject eyeBullet;
 	public GameObject eyeEnemy;
 	public Vector3 offset = new Vector3 (0,0.5f,0);
 	public float saveRage = 1.3f;
@@ -22,6 +23,7 @@ public class StatePatternBot : MonoBehaviour {
 	[HideInInspector] public CombatState combatState;
 	[HideInInspector] public PatrolState patroState;
 	[HideInInspector] public IdleState idleState;
+	
 
 	[HideInInspector] public PlayerController controller;
 

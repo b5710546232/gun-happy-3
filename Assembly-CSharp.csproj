@@ -51,13 +51,15 @@
   <ItemGroup>
      <Compile Include="Assets\ButtonController.cs" />
      <Compile Include="Assets\EyeController.cs" />
+     <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\ItemSpawner.cs" />
-     <Compile Include="Assets\PlayerBodyController.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletPoolController.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CombatText.cs" />
      <Compile Include="Assets\Scripts\CombatTextManager.cs" />
+     <Compile Include="Assets\Scripts\GameCore.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerBodyController.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerFootController.cs" />
      <Compile Include="Assets\Scripts\StateMachine\ChaseState.cs" />

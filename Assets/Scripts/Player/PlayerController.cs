@@ -191,7 +191,6 @@ private float noMovementThreshold = 0.0001f;
     {
         currenWeapon.GetComponent<GunController>().fire(direction, gameObject);
 
-
     }
 
     public void TakeRecoil(float recoil)

@@ -131,10 +131,12 @@ public class GunController : MonoBehaviour
         Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
         rbBullet.velocity = new Vector2(projectileForce * direction, rbBullet.velocity.y);
         bullet.transform.localScale = new Vector3(direction, 1, 1);
-        bullet.GetComponent<BulletController>().SetDamage(damage);
 
         BulletController bulletController = bullet.GetComponent<BulletController>();
         bulletController.SetShooter(shooter);
+
+
+        bullet.GetComponent<BulletController>().SetDamage(damage * shooter.gameObject.transform.localScale.x);
         shooter.GetComponent<PlayerController>().TakeRecoil(20f);
 
 

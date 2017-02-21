@@ -359,11 +359,11 @@ private float noMovementThreshold = 0.0001f;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Weapon")
-        {
+        // if (other.gameObject.tag == "Weapon")
+        // {
 
-            ChangeWeapon(other.gameObject);
-        }
+        //     ChangeWeapon(other.gameObject);
+        // }
         BulletHitHandler(other);
         DeadZoneHitHandler(other);
 

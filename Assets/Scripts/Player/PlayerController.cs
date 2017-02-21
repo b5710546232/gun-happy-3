@@ -356,17 +356,7 @@ private float noMovementThreshold = 0.0001f;
     }
 
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        // if (other.gameObject.tag == "Weapon")
-        // {
 
-        //     ChangeWeapon(other.gameObject);
-        // }
-        BulletHitHandler(other);
-        DeadZoneHitHandler(other);
-
-    }
 
 
     private void BulletHitHandler(Collider2D other)
@@ -441,18 +431,7 @@ private float noMovementThreshold = 0.0001f;
         Camera.main.transform.position = originalCamPos;
     }
 
-    private void DeadZoneHitHandler(Collider2D other)
-    {
-        if (other.gameObject.tag == "DeadZone")
-        {
-            // go to spawn @ spawn point.
-            // isDeath = true;
-            // // Reset();
-            return;
-            //add score to shooter who shot this player.
-        }
-    }
-
+  
     private void Reset()
     {
         PlayShake();
@@ -471,6 +450,10 @@ private float noMovementThreshold = 0.0001f;
             }
         }
         isDeath = false;
+
+        if(live<=0){
+            GameManager.Instance.GameOver();
+        }
 
     }
 

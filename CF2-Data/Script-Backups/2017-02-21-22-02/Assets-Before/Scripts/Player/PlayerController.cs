@@ -288,7 +288,7 @@ private float noMovementThreshold = 0.0001f;
             jumpCounter = 2;
         }
 
-        if (ControlFreak2.CF2Input.GetKey(upButton) || ControlFreak2.CF2Input.GetKey(input.getUpButton()))
+        if (Input.GetKey(upButton) || Input.GetKey(input.getUpButton()))
         {
             Jump();
             // if (!grounded && jumpCounter > 0)
@@ -313,11 +313,11 @@ private float noMovementThreshold = 0.0001f;
 
 
         }
-        if (ControlFreak2.CF2Input.GetKey(leftButton) || ControlFreak2.CF2Input.GetKey(input.getLeftButton()))
+        if (Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton()))
         {
             Move(-1);
         }
-        if (ControlFreak2.CF2Input.GetKey(rightButton) || ControlFreak2.CF2Input.GetKey(input.getRightButton()))
+        if (Input.GetKey(rightButton) || Input.GetKey(input.getRightButton()))
         {
             Move(1);
         }
@@ -325,13 +325,13 @@ private float noMovementThreshold = 0.0001f;
 
 
 
-        if (ControlFreak2.CF2Input.GetKey(fireButton) || ControlFreak2.CF2Input.GetKey(input.getFireButton()))
+        if (Input.GetKey(fireButton) || Input.GetKey(input.getFireButton()))
         {
             Shoot(transform.localScale.x);
         }
 
 
-        bool drop = ControlFreak2.CF2Input.GetKey(downButton) || ControlFreak2.CF2Input.GetKey(input.getDownButton());
+        bool drop = Input.GetKey(downButton) || Input.GetKey(input.getDownButton());
         if (drop)
         {
             Drop();
@@ -340,8 +340,8 @@ private float noMovementThreshold = 0.0001f;
 
     void AnimationManage()
     {
-        bool check = ControlFreak2.CF2Input.GetKey(rightButton) || ControlFreak2.CF2Input.GetKey(input.getRightButton());
-        check = check || ControlFreak2.CF2Input.GetKey(leftButton) || ControlFreak2.CF2Input.GetKey(input.getLeftButton());
+        bool check = Input.GetKey(rightButton) || Input.GetKey(input.getRightButton());
+        check = check || Input.GetKey(leftButton) || Input.GetKey(input.getLeftButton());
 
         bool isWalk = grounded && (Mathf.Abs(playerRb.velocity.x) != 0f) || check;
         bool isJump = !grounded && (Mathf.Abs(playerRb.velocity.y) > 0.0f);

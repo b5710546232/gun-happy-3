@@ -1,0 +1,23 @@
+Converting script [1 / 1]	[/Scripts/Player/PlayerController.cs]
+	Fragments : 14
+		[ 0] : Line:  291	InputMethod   GetKey              	(upButton)
+		[ 1] : Line:  291	InputMethod   GetKey              	(input.getUpButton()
+		[ 2] : Line:  316	InputMethod   GetKey              	(leftButton)
+		[ 3] : Line:  316	InputMethod   GetKey              	(input.getLeftButton()
+		[ 4] : Line:  320	InputMethod   GetKey              	(rightButton)
+		[ 5] : Line:  320	InputMethod   GetKey              	(input.getRightButton()
+		[ 6] : Line:  328	InputMethod   GetKey              	(fireButton)
+		[ 7] : Line:  328	InputMethod   GetKey              	(input.getFireButton()
+		[ 8] : Line:  334	InputMethod   GetKey              	(downButton)
+		[ 9] : Line:  334	InputMethod   GetKey              	(input.getDownButton()
+		[10] : Line:  343	InputMethod   GetKey              	(rightButton)
+		[11] : Line:  343	InputMethod   GetKey              	(input.getRightButton()
+		[12] : Line:  344	InputMethod   GetKey              	(leftButton)
+		[13] : Line:  344	InputMethod   GetKey              	(input.getLeftButton()
+
+
+1 scripts modified!
+Overwriting actual scripts...
+	[0 / 1] from  [/Users/Nattapat/gun-happy-3/CF2-Data/Script-Backups/2017-02-21-22-02/Assets-After//Scripts/Player/PlayerController.cs] to [/Users/Nattapat/gun-happy-3/Assets//Scripts/Player/PlayerController.cs]
+
+Overwriting COMPLETED!

@@ -43,6 +43,7 @@ public class PlayerFootController : MonoBehaviour {
         }
         if(other.gameObject.tag == "Ground"){
             drop = false;
+            GetComponent<Collider2D>().isTrigger = true;
         }
 
     }
@@ -55,6 +56,7 @@ public class PlayerFootController : MonoBehaviour {
         {
 
             grounded = true;
+
         }
         
         if(other.gameObject.tag == "AirFloor"){
@@ -62,6 +64,7 @@ public class PlayerFootController : MonoBehaviour {
         }
         if(other.gameObject.tag == "Ground"){
             drop = false;
+            GetComponent<Collider2D>().isTrigger = true;
         }
 
     }
@@ -74,6 +77,7 @@ public class PlayerFootController : MonoBehaviour {
         {
 
             grounded = false;
+            drop = false;
         }
          if(other.gameObject.tag == "AirFloor"){
             grounded = false;

@@ -71,11 +71,11 @@ public class PlayerController : MonoBehaviour
 
     private bool isDrop = false;
 
-private float noMovementThreshold = 0.0001f;
- private const int noMovementFrames = 3;
- Vector3[] previousLocations = new Vector3[noMovementFrames];
- private bool isMoving;
- public bool IsMoving
+    private float noMovementThreshold = 0.0001f;
+    private const int noMovementFrames = 3;
+    Vector3[] previousLocations = new Vector3[noMovementFrames];
+    private bool isMoving;
+    public bool IsMoving
  {
      get{ return isMoving; }
  }
@@ -259,6 +259,7 @@ private float noMovementThreshold = 0.0001f;
 
 
     }
+
     public void Move(float direction)
     {
      
@@ -283,6 +284,7 @@ private float noMovementThreshold = 0.0001f;
 
 
         grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y <= 0;
+        bool drop = ControlFreak2.CF2Input.GetKey(downButton) || ControlFreak2.CF2Input.GetKey(input.getDownButton());
         if (grounded)
         {
             jumpCounter = 2;
@@ -290,6 +292,7 @@ private float noMovementThreshold = 0.0001f;
 
         if (ControlFreak2.CF2Input.GetKey(upButton) || ControlFreak2.CF2Input.GetKey(input.getUpButton()))
         {
+            if(!drop)
             Jump();
             // if (!grounded && jumpCounter > 0)
             // {
@@ -331,10 +334,12 @@ private float noMovementThreshold = 0.0001f;
         }
 
 
-        bool drop = ControlFreak2.CF2Input.GetKey(downButton) || ControlFreak2.CF2Input.GetKey(input.getDownButton());
+        
+        bool up = ControlFreak2.CF2Input.GetKey(upButton) || ControlFreak2.CF2Input.GetKey(input.getUpButton());
         if (drop)
         {
-            Drop();
+            if(up)
+                Drop();
         }
     }
 
@@ -461,7 +466,7 @@ private float noMovementThreshold = 0.0001f;
     {
 
         float process = 0.0f;
-        float limit = .1f;
+        float limit = .385f;
         while (process < limit)
         {
             foot.GetComponent<Collider2D>().isTrigger = true;
@@ -478,6 +483,14 @@ private float noMovementThreshold = 0.0001f;
 
         if (foot.GetComponent<PlayerFootController>().drop)
         {
+            // Jump();
+            jumpCounter = 0;
+            Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
+            Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
+            Vector2 final = horizontal + vertical;
+            final = new Vector2(final.normalized.x, final.normalized.y);
+            playerRb.AddForce(Vector2.up * jumpForce * 50*.5f);
+
             StartCoroutine(DropProcess());
         }
     }

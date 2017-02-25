@@ -334,11 +334,9 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        
-        bool up = ControlFreak2.CF2Input.GetKey(upButton) || ControlFreak2.CF2Input.GetKey(input.getUpButton());
+    
         if (drop)
         {
-            if(up)
                 Drop();
         }
     }
@@ -466,7 +464,7 @@ public class PlayerController : MonoBehaviour
     {
 
         float process = 0.0f;
-        float limit = .385f;
+        float limit = .001f;
         while (process < limit)
         {
             foot.GetComponent<Collider2D>().isTrigger = true;
@@ -485,12 +483,6 @@ public class PlayerController : MonoBehaviour
         {
             // Jump();
             jumpCounter = 0;
-            Vector2 horizontal = new Vector2(playerRb.velocity.x, 0);
-            Vector2 vertical = new Vector2(0, jumpForce * 50 + playerRb.velocity.y);
-            Vector2 final = horizontal + vertical;
-            final = new Vector2(final.normalized.x, final.normalized.y);
-            playerRb.AddForce(Vector2.up * jumpForce * 50*.5f);
-
             StartCoroutine(DropProcess());
         }
     }

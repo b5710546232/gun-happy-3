@@ -41,7 +41,7 @@ public class BulletController : MonoBehaviour {
 		Debug.Log("Time"+hitTime);
 
 		if (hitTime <0.2){
-			hitTime = 0.5f;
+			hitTime = 0.75f;
 		}
 		else if( hitTime <= 0.6f  && hitTime>=0.2f){
 			hitTime = 1;
@@ -49,7 +49,7 @@ public class BulletController : MonoBehaviour {
 
 
 		else if( hitTime > .6f ){
-			hitTime = 1.5f;
+			hitTime = 1.2f;
 		}
 
 		float newDmg = GetDamage() * 1/hitTime;

@@ -54,8 +54,8 @@ public class PlayerBodyController : MonoBehaviour
             Vector2 totalForce = player.playerRb.velocity ;
             totalForce.Normalize();
             totalForce.x = totalForce.x * player.knockbackPoint;
-            // player.playerRb.AddForce(knockbackPoint*Vector2.right);
-            player.playerRb.velocity += Vector2.right*knockbackPoint/50f;
+            player.playerRb.AddForce(knockbackPoint*Vector2.right*0.8f);
+            // player.playerRb.velocity += Vector2.right*knockbackPoint/50f;
             //check who is shooter
 
             // print("hitted"+bullet.damage);

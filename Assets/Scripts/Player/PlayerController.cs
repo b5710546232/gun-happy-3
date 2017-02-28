@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1.5f;
+    private float speed = 1f;
+
+    private float acceleration=.03f;
+    private float maxSpeed= 1.5f;
     private GameObject currenWeapon;
 
     public List<AudioClip> sfx_hurts;
@@ -211,6 +214,8 @@ public class PlayerController : MonoBehaviour
     public void Jump()
     {
 
+        
+
         grounded = foot.GetComponent<PlayerFootController>().isGrounded() && playerRb.velocity.y <= 0;
         // logic
         if (!grounded && jumpCounter > 0)
@@ -225,7 +230,9 @@ public class PlayerController : MonoBehaviour
                 Vector2 final = horizontal + vertical;
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
-                playerRb.AddForce(Vector2.up * jumpForce * 50);
+                // playerRb.AddForce(Vector2.up * jumpForce * 50);
+
+                playerRb.velocity += (final * jumpForce);
                 jumpCounter = 0;
             }
 
@@ -242,8 +249,9 @@ public class PlayerController : MonoBehaviour
                 Vector2 final = horizontal + vertical;
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
-                playerRb.AddForce(final * jumpForce * 50);
-                print(playerRb.velocity);
+                // playerRb.AddForce(final * jumpForce * 50);
+                playerRb.velocity += (final * jumpForce);
+
                 jumpCounter--;
             }
         }
@@ -263,19 +271,28 @@ public class PlayerController : MonoBehaviour
     public void Move(float direction)
     {
      
-        gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
+        // gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
+        // if(Mathf.Abs(playerRb.velocity.x )< maxSpeed )
+            // playerRb.velocity += Vector2.right * direction*speed;
+
+
+        // speed += acceleration/10f;
+        //  if (speed > maxSpeed)
+            // speed = maxSpeed;
+
+        print(speed+"spepd");
         transform.localScale = new Vector3(direction, 1, 1);
         canvas.transform.localScale = new Vector3(direction, 1, 1);
         this.direction = direction;
 
 
         
-        // float maxSpeed = 1.0f;
-        // if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
-        // {
-        //     playerRb.AddForce(Vector2.right * direction * speed * 10f);
-        //     // print(playerRb.velocity.x);
-        // }
+        float maxSpeed = 1.0f;
+        if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
+        {
+            playerRb.AddForce(Vector2.right * direction * speed * 10f);
+            // print(playerRb.velocity.x);
+        }
 
     }
 
@@ -464,7 +481,7 @@ public class PlayerController : MonoBehaviour
     {
 
         float process = 0.0f;
-        float limit = .001f;
+        float limit = .1f;
         while (process < limit)
         {
             foot.GetComponent<Collider2D>().isTrigger = true;

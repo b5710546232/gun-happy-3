@@ -27,8 +27,9 @@ public class BulletPoolController : MonoBehaviour {
 
 		foreach(GameObject item in pools){
 			if(!item.activeInHierarchy){
-				item.transform.position = position;
-				item.SetActive(true);
+
+				BulletController bullet = item.GetComponent<BulletController>();
+				bullet.resetTo(position);
 				return item;
 			}
 		}

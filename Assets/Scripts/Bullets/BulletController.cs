@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour {
 	private float damage = 0;
 	private GameObject shooter;
 	// Use this for initialization
-
+	private float hitTimeStart = 0;
 
 	void Start () {
 		
@@ -29,8 +29,35 @@ public class BulletController : MonoBehaviour {
 		return shooter.GetComponent<PlayerController>();
 	}
 
+	public void resetTo(Vector3 pos){
+		transform.position = pos;
+		gameObject.SetActive(true);
+		hitTimeStart = Time.time;
+	}
+
 	public void Hit(){
 		// method of Hit
+		float hitTime = Time.time - hitTimeStart;
+		Debug.Log("Time"+hitTime);
+
+		if (hitTime <0.2){
+			hitTime = 0.5f;
+		}
+		else if( hitTime <= 0.6f  && hitTime>=0.2f){
+			hitTime = 1;
+		}
+
+
+		else if( hitTime > .6f ){
+			hitTime = 1.5f;
+		}
+
+		float newDmg = GetDamage() * 1/hitTime;
+
+		SetDamage(newDmg);
+
+		print(newDmg+hitTime);
+
 		gameObject.SetActive(false);
 		Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
 		rb.velocity = Vector2.zero;

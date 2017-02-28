@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
     public void Move(float direction)
     {
      
-        // gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
+        gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
         // if(Mathf.Abs(playerRb.velocity.x )< maxSpeed )
             // playerRb.velocity += Vector2.right * direction*speed;
 
@@ -280,19 +280,19 @@ public class PlayerController : MonoBehaviour
         //  if (speed > maxSpeed)
             // speed = maxSpeed;
 
-        print(speed+"spepd");
+        // print(speed+"spepd");
         transform.localScale = new Vector3(direction, 1, 1);
         canvas.transform.localScale = new Vector3(direction, 1, 1);
         this.direction = direction;
 
 
         
-        float maxSpeed = 1.0f;
-        if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
-        {
-            playerRb.AddForce(Vector2.right * direction * speed * 10f);
-            // print(playerRb.velocity.x);
-        }
+        // float maxSpeed = 1.0f;
+        // if (Mathf.Abs(playerRb.velocity.x) < maxSpeed)
+        // {
+        //     playerRb.AddForce(Vector2.right * direction * speed * 10f);
+        //     // print(playerRb.velocity.x);
+        // }
 
     }
 

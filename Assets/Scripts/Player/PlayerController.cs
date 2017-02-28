@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1f;
+    private float speed = 1.3f;
 
     private float acceleration=.03f;
     private float maxSpeed= 1.5f;
@@ -270,8 +270,14 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float direction)
     {
+
+        float max = 2f;
+        float accelerationMultiplier = 1f - (playerRb.velocity.magnitude / max);
+
+        if(accelerationMultiplier<0) accelerationMultiplier = 0;
+        // playerRb.AddForce(Vector2.right * direction * speed * 10f);
      
-        gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
+        // gameObject.transform.Translate(Vector2.right * direction*speed  * Time.deltaTime);
         // if(Mathf.Abs(playerRb.velocity.x )< maxSpeed )
             // playerRb.velocity += Vector2.right * direction*speed;
 
@@ -285,6 +291,8 @@ public class PlayerController : MonoBehaviour
         canvas.transform.localScale = new Vector3(direction, 1, 1);
         this.direction = direction;
 
+        playerRb.AddForce(Vector2.right * direction * 10*speed*accelerationMultiplier);
+        // playerRb.AddRelativeForce(Vector2.right * direction * 10*speed*accelerationMultiplier);
 
         
         // float maxSpeed = 1.0f;

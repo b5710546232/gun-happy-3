@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 1.3f;
+    private float speed = 1.0f;
 
-    private float acceleration=.03f;
-    private float maxSpeed= 1.5f;
+    private float acceleration=.05f;
+    private float maxSpeed= 1.55f;
     private GameObject currenWeapon;
 
     public List<AudioClip> sfx_hurts;
@@ -230,9 +230,9 @@ public class PlayerController : MonoBehaviour
                 Vector2 final = horizontal + vertical;
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
-                // playerRb.AddForce(Vector2.up * jumpForce * 50);
+                playerRb.AddForce(Vector2.up * jumpForce * 50);
 
-                playerRb.velocity += (final * jumpForce);
+                // playerRb.velocity += (final * jumpForce);
                 jumpCounter = 0;
             }
 
@@ -249,8 +249,8 @@ public class PlayerController : MonoBehaviour
                 Vector2 final = horizontal + vertical;
                 final = new Vector2(final.normalized.x, final.normalized.y);
                 // playerRb.velocity = final * jumpForce;
-                // playerRb.AddForce(final * jumpForce * 50);
-                playerRb.velocity += (final * jumpForce);
+                playerRb.AddForce(final * jumpForce * 50);
+                // playerRb.velocity += (final * jumpForce);
 
                 jumpCounter--;
             }

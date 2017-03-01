@@ -41,7 +41,7 @@ public class BulletController : MonoBehaviour {
 		Debug.Log("Time"+hitTime);
 
 		if (hitTime <0.2){
-			hitTime = 0.75f;
+			hitTime = 0.85f;
 		}
 		else if( hitTime <= 0.6f  && hitTime>=0.2f){
 			hitTime = 1;

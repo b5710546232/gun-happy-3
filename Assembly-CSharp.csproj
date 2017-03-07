@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\PlayerMenuInfo.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletController.cs" />
      <Compile Include="Assets\Scripts\Bullets\BulletPoolController.cs" />
      <Compile Include="Assets\Scripts\ButtonController.cs" />

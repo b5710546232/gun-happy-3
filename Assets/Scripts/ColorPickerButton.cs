@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ColorPickerButton : MonoBehaviour {
 
 	public GameObject colorPicker;
+	
 	public GameObject player;
 	public GameObject panel;
 	public GameObject c;
@@ -21,7 +22,7 @@ public class ColorPickerButton : MonoBehaviour {
 
 		// set to not active
 	
-		
+		gameObject.GetComponent<Image>().color = player.GetComponent<SpriteRenderer>().color;
 		colorPicker = GameObject.FindGameObjectWithTag("ColorPicker");
 
         colors = new List<GameObject>();
@@ -37,11 +38,7 @@ public class ColorPickerButton : MonoBehaviour {
 	
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
 	public void ShowColorPicker(){
 
@@ -50,6 +47,7 @@ public class ColorPickerButton : MonoBehaviour {
 
 		for (int i = 0 ;i< colorPicker.transform.childCount ;i++){
 			colors[i].GetComponent<ColorSelectorButton>().targetPlayer = player;
+			colors[i].GetComponent<ColorSelectorButton>().colorPickerButton = gameObject;
 
 		}
 		

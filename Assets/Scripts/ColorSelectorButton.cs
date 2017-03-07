@@ -7,6 +7,7 @@ public class ColorSelectorButton : MonoBehaviour {
 	public GameObject pane;
 	public GameObject targetPlayer;
 	public GameObject colorPicker;
+	public GameObject colorPickerButton;
 	public List<GameObject> colors;
 	// Use this for initialization
 	/// <summary>
@@ -29,7 +30,10 @@ public class ColorSelectorButton : MonoBehaviour {
 	public void ChooseColor(){
 		targetPlayer.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<Image>().color;
 		
+
 		pane.SetActive(false);
+
+		colorPickerButton.GetComponent<Image>().color = gameObject.GetComponent<Image>().color;
 		
 
 		for (int i = 0 ;i< colorPicker.transform.childCount ;i++) {

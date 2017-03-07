@@ -5,6 +5,7 @@ using UnityEngine;
 public class ColorPickerButton : MonoBehaviour {
 
 	public GameObject colorPicker;
+	public GameObject player;
 	public GameObject panel;
 	// Use this for initialization
 	public bool toggle;

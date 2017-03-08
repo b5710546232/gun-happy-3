@@ -9,7 +9,6 @@ public class ColorPickerButton : MonoBehaviour {
 	
 	public GameObject player;
 	public GameObject panel;
-	public GameObject c;
 	public List<GameObject> colors;
 	// Use this for initialization
 	public bool toggle;
@@ -23,7 +22,7 @@ public class ColorPickerButton : MonoBehaviour {
 		// set to not active
 	
 		gameObject.GetComponent<Image>().color = player.GetComponent<SpriteRenderer>().color;
-		colorPicker = GameObject.FindGameObjectWithTag("ColorPicker");
+		// colorPicker = GameObject.FindGameObjectWithTag("ColorPicker");
 
         colors = new List<GameObject>();
 

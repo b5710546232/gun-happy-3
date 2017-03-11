@@ -29,13 +29,12 @@ public class ColorSelectorButton : MonoBehaviour {
 
 	public void ChooseColor(){
 		targetPlayer.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<Image>().color;
-		
-
-		pane.SetActive(false);
-
 		colorPickerButton.GetComponent<Image>().color = gameObject.GetComponent<Image>().color;
-		
+		Cancel();
+	}
 
+	public void Cancel(){
+		pane.SetActive(false);
 		for (int i = 0 ;i< colorPicker.transform.childCount ;i++) {
 
 			colors[i].gameObject.SetActive(false);

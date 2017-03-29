@@ -28,7 +28,7 @@ public class ColorSelectorButton : MonoBehaviour {
 	}
 
 	public void ChooseColor(){
-		targetPlayer.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<Image>().color;
+		targetPlayer.GetComponent<Image>().color = gameObject.GetComponent<Image>().color;
 		colorPickerButton.GetComponent<Image>().color = gameObject.GetComponent<Image>().color;
 		Cancel();
 	}

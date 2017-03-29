@@ -21,7 +21,7 @@ public class ColorPickerButton : MonoBehaviour {
 
 		// set to not active
 	
-		gameObject.GetComponent<Image>().color = player.GetComponent<SpriteRenderer>().color;
+		gameObject.GetComponent<Image>().color = player.GetComponent<Image>().color;
 		// colorPicker = GameObject.FindGameObjectWithTag("ColorPicker");
 
         colors = new List<GameObject>();
